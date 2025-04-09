@@ -74,13 +74,12 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProducto(@PathVariable Integer id) {
-        ProductoDTO producto = productoService.findById(id);
-        
-        if (producto != null) {
-            return ResponseEntity.ok(producto); 
+    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+        try {
+            productoService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch ( Exception e ) {
+            return  ResponseEntity.notFound().build();
         }
-        
-        return ResponseEntity.notFound().build();
     }
 }
