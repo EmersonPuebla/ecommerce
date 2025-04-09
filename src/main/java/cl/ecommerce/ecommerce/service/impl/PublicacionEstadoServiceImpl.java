@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-
 public class PublicacionEstadoServiceImpl implements IPublicacionEstadoService{
 
     @Autowired
