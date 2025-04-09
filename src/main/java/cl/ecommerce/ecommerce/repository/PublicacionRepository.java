@@ -1,5 +1,5 @@
 package cl.ecommerce.ecommerce.repository;
 
-public interface UsuarioRepository {
+public interface PublicacionRepository {
 
 }
