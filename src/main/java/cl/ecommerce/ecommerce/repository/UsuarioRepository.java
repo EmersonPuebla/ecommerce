@@ -1,5 +1,9 @@
 package cl.ecommerce.ecommerce.repository;
 
-public interface UsuarioRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import cl.ecommerce.ecommerce.dto.UsuarioDTO;
+
+public interface UsuarioRepository extends JpaRepository<UsuarioDTO, Integer> {
 
 }
