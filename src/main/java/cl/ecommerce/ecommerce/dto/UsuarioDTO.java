@@ -6,6 +6,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,7 @@ public class UsuarioDTO {
     private Integer run;
 
     @Column
-    (nullable = false)
+    (nullable = false, columnDefinition = "NUMBER(3)")
     private Integer dv;
 
     @Column(nullable=false) 
@@ -35,6 +37,7 @@ public class UsuarioDTO {
     private String apmaterno;
 
     @Column(nullable=false)  
+    @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
     @Column(nullable=false) 
