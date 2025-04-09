@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ecommerce.ecommerce.dto.ResponseDTO;
 
 @RestController
-@RequestMapping("/api/crud/usuarios")
+@RequestMapping("/api/crud/usuario")
 
 public class UsuarioController {
     
