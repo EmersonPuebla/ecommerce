@@ -20,7 +20,7 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     public ProductoDTO findById(Integer id) {
-        return productoRepository.findById(id).get();
+        return productoRepository.findById(id).orElse(null);
     }
 
     public ProductoDTO save(ProductoDTO producto) {
