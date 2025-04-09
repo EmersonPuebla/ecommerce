@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ProductoDTO {
     @Id
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private String nombre;

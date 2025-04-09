@@ -9,16 +9,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "ESTADO_PUBLICACION")
+@Table(name = "CATEGORIA")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class PublicacionEstadoDTO {
+public class CategoriaDTO {
+
     @Id
     private Integer id;
 
-    @Column (nullable = false)
-    private String estadoPublicacion;
+    @Column(nullable = false)
+    private String categoria;
 
 }
