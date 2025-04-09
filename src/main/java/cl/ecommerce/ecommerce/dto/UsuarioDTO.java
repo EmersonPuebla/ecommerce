@@ -34,7 +34,7 @@ public class UsuarioDTO {
     @Column(nullable=false) 
     private String apmaterno;
 
-    @Column(nullable=true)  
+    @Column(nullable=false)  
     private Date fechaNacimiento;
 
     @Column(nullable=false) 
