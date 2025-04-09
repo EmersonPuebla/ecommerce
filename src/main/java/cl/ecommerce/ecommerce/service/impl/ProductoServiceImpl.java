@@ -27,6 +27,14 @@ public class ProductoServiceImpl implements IProductoService {
         return productoRepository.save(producto);
     }
 
+    public ProductoDTO update(Integer id, ProductoDTO producto) {
+        if (productoRepository.findById(id) != null) {
+            return productoRepository.save(producto);
+        }
+        return null;
+    }
+
+
     public void delete(Integer id) {
         productoRepository.deleteById(id);
     }
