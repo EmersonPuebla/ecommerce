@@ -48,7 +48,12 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductoDTO> insertProducto(@RequestBody ProductoDTO producto) {
+    public ResponseEntity<?> insertProducto(@RequestBody ProductoDTO producto) {
+
+        if (productoService.findById(producto.getId()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
+        }
+
         ProductoDTO newProducto = productoService.save(producto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProducto);
     }
