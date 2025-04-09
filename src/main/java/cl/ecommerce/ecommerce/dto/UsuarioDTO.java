@@ -1,79 +1,49 @@
 package cl.ecommerce.ecommerce.dto;
 
+import java.util.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table (name = "USUARIO")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class UsuarioDTO {
-    private int rut;
+
+    @Id
+    private String run;
+
+    @Column
+    (nullable = false)
+    private int dv;
+
+    @Column(nullable=false) 
     private String nombres;
-    private String apPaterno;
-    private String apMaterno;
-    private String fechaNacimiento;
-    private String email;
-    private String hashContraseña;
 
-    public UsuarioDTO(int rut, String nombres, String apPaterno, String apMaterno, String fechaNacimiento, String email,
-            String hashContraseña) {
-        this.rut = rut;
-        this.nombres = nombres;
-        this.apPaterno = apPaterno;
-        this.apMaterno = apMaterno;
-        this.fechaNacimiento = fechaNacimiento;
-        this.email = email;
-        this.hashContraseña = hashContraseña;
-    }
+    @Column(nullable=false) 
+    private String appaterno;
 
-    public int getRut() {
-        return rut;
-    }
+    @Column(nullable=false) 
+    private String apmaterno;
 
-    public void setRut(int rut) {
-        this.rut = rut;
-    }
+    @Column(nullable=true)  
+    private Date fechaNacimiento;
 
-    public String getNombres() {
-        return nombres;
-    }
+    @Column(nullable=false) 
+    private String correo;
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
-    }
+    @Column(nullable=false)
+    private String hashContrasena;
 
-    public String getApPaterno() {
-        return apPaterno;
-    }
-
-    public void setApPaterno(String apPaterno) {
-        this.apPaterno = apPaterno;
-    }
-
-    public String getApMaterno() {
-        return apMaterno;
-    }
-
-    public void setApMaterno(String apMaterno) {
-        this.apMaterno = apMaterno;
-    }
-
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getHashContraseña() {
-        return hashContraseña;
-    }
-
-    public void setHashContraseña(String hashContraseña) {
-        this.hashContraseña = hashContraseña;
-    }
+    //@Column(nullable=false)
+    //private Date fechaRegistro;
 
 }
