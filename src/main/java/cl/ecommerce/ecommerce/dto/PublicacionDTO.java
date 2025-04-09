@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 public class PublicacionDTO {
 
     @Id
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private Date fecha_publicacion;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Integer calificacion;
 
 }
