@@ -49,6 +49,10 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> insertUsuario(@RequestBody UsuarioDTO usuario) {
+        if (usuarioService.findById(usuario.getRun()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
+        }
+        
         UsuarioDTO newUsuario = usuarioService.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUsuario);
     }
