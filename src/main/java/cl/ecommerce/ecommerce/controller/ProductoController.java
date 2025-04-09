@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.ecommerce.ecommerce.dto.ProductoDTO;
 import cl.ecommerce.ecommerce.service.impl.ProductoServiceImpl;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/crud/productos")
@@ -36,7 +38,7 @@ public class ProductoController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductoDTO> getById(@PathVariable Integer id) {
         ProductoDTO producto = productoService.findById(id);
-        
+
         if (producto == null) {
             return ResponseEntity.noContent().build();
         }
@@ -44,12 +46,24 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
-
     @PostMapping
     public ResponseEntity<ProductoDTO> insertProducto(@RequestBody ProductoDTO producto) {
         ProductoDTO newProducto = productoService.save(producto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProducto);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoDTO> updateProducto(@PathVariable Integer id, @RequestBody ProductoDTO producto) {
+        if (productoService.findById(id) == null) {
+            return ResponseEntity.notFound().build();
+        }
+    
+        ProductoDTO newProducto = productoService.update(id, producto);
 
+        if (newProducto == null) {
+            return ResponseEntity.internalServerError().build();
+        }
+       
+        return ResponseEntity.ok(producto);        
+    }
 }
