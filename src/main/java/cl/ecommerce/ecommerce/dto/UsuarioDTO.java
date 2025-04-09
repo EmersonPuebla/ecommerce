@@ -19,11 +19,11 @@ import lombok.NoArgsConstructor;
 public class UsuarioDTO {
 
     @Id
-    private String run;
+    private Integer run;
 
     @Column
     (nullable = false)
-    private int dv;
+    private Integer dv;
 
     @Column(nullable=false) 
     private String nombres;
