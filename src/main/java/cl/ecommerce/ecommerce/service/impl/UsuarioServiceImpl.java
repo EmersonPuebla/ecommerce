@@ -29,6 +29,14 @@ public class UsuarioServiceImpl implements IUsuarioService{
         return usuarioRepository.save(usuario);
     }
 
+    public UsuarioDTO update(Integer run, UsuarioDTO usuario){
+        if (usuarioRepository.findById(run) != null){
+            return usuarioRepository.save(usuario);
+        }
+        return null;
+        
+    }
+
     public void delete(Integer run) {
         usuarioRepository.deleteById(run);
     }
