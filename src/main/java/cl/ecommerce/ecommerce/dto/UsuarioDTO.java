@@ -49,6 +49,9 @@ public class UsuarioDTO {
     @Column(nullable=false)
     private String hashContrasena;
 
+    @Column(nullable=false)
+    private String salt;
+
     //@Column(nullable=false)
     //private Date fechaRegistro;
 
