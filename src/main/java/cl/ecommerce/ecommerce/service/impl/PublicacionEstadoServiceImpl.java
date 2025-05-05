@@ -14,22 +14,22 @@ import jakarta.transaction.Transactional;
 public class PublicacionEstadoServiceImpl implements IPublicacionEstadoService{
 
     @Autowired
-    private PublicacionEstadoRepository publicacionEstRepository;
+    private PublicacionEstadoRepository publicacionEstadoRepository;
 
     public List<PublicacionEstadoDTO> findAll() {
-        return publicacionEstRepository.findAll();
+        return publicacionEstadoRepository.findAll();
     }
 
     public PublicacionEstadoDTO findById(Integer id) {
-        return publicacionEstRepository.findById(id).get();
+        return publicacionEstadoRepository.findById(id).get();
     }
 
-    public PublicacionEstadoDTO save(PublicacionEstadoDTO publicacionEst) {
-        return publicacionEstRepository.save(publicacionEst);
+    public PublicacionEstadoDTO save(PublicacionEstadoDTO publicacionEstado) {
+        return publicacionEstadoRepository.save(publicacionEstado);
     }
 
     public void delete(Integer id) {
-        publicacionEstRepository.deleteById(id);
+        publicacionEstadoRepository.deleteById(id);
     }
 
 }
