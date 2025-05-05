@@ -24,7 +24,7 @@ public class ProductoDTO {
     private String descripcion;
 
     @Column(nullable = true)
-    private String color;
+    private ColorDTO color;
     
     @Column(nullable = false)
     private Integer precio;
