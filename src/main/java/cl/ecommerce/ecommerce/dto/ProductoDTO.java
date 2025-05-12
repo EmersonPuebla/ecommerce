@@ -2,6 +2,7 @@ package cl.ecommerce.ecommerce.dto;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
@@ -35,6 +36,10 @@ public class ProductoDTO {
     @OneToMany
     @JoinColumn(nullable = false)
     private List<ImagenDTO> imagen;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private CategoriaDTO categoria;
 
     @Column(nullable = false)
     private Integer precio;

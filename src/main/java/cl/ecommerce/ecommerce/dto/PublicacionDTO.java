@@ -38,7 +38,7 @@ public class PublicacionDTO {
     private List<OpinionDTO> opinion;
 
     @Column(nullable = false)
-    private Date fecha_publicacion;
+    private Date fecha;
 
     @Column(nullable = false)
     private Integer calificacion;
