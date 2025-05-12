@@ -2,9 +2,12 @@ package cl.ecommerce.ecommerce.dto;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
+
+import java.util.List;
+
 import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,9 +28,9 @@ public class ProductoDTO {
     @Column(nullable = false)
     private String descripcion;
 
-    @ManyToMany
+    @OneToMany
     @JoinColumn(nullable = true)
-    private ColorDTO color;
+    private List<ColorDTO> color;
     
     @Column(nullable = false)
     private Integer precio;
