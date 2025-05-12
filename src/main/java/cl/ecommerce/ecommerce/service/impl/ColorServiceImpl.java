@@ -3,11 +3,15 @@ package cl.ecommerce.ecommerce.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import cl.ecommerce.ecommerce.dto.ColorDTO;
 import cl.ecommerce.ecommerce.repository.ColorRepository;
 import cl.ecommerce.ecommerce.service.IColorService;
+import jakarta.transaction.Transactional;
 
+@Service
+@Transactional
 public class ColorServiceImpl implements IColorService {
 
     @Autowired
