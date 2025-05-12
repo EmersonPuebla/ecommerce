@@ -9,16 +9,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "ESTADO_PUBLICACION")
+@Table(name = "IMAGEN")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-
-public class PublicacionEstadoDTO {
+@NoArgsConstructor
+public class ImagenDTO {
     @Id
-    private Integer id;
+    private String id;
 
-    @Column (nullable = false)
-    private String estadoPublicacion;
-
+    @Column(nullable = false)
+    private String url;
 }

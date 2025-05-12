@@ -34,9 +34,7 @@ public class ProductoServiceImpl implements IProductoService {
         return null;
     }
 
-
     public void delete(Integer id) {
         productoRepository.deleteById(id);
     }
-
 }

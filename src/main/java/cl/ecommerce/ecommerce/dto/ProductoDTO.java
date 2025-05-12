@@ -32,6 +32,10 @@ public class ProductoDTO {
     @JoinColumn(nullable = true)
     private List<ColorDTO> color;
     
+    @OneToMany
+    @JoinColumn(nullable = false)
+    private List<ImagenDTO> imagen;
+
     @Column(nullable = false)
     private Integer precio;
 
