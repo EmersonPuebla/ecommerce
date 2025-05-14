@@ -19,4 +19,5 @@ public class ImagenDTO {
 
     @Column(nullable = false)
     private String url;
+    
 }

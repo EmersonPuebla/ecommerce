@@ -2,6 +2,7 @@ package cl.ecommerce.ecommerce.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ecommerce.ecommerce.dto.ImagenDTO;
 import cl.ecommerce.ecommerce.service.impl.ImagenServiceImpl;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("api/crud/imagenes")
@@ -43,6 +47,17 @@ public class ImagenController {
     public ResponseEntity<ImagenDTO> getByOpinionId(@PathVariable Integer id_opinion, @PathVariable Integer index_imagen) {
         return null;
     }
+
+    @PostMapping
+    public ResponseEntity<ImagenDTO> postImagen(@RequestBody ImagenDTO imagen) {
+        if (imagenService.findById(imagen.getId()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+
+        ImagenDTO newImagen = imagenService.save(imagen);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newImagen);
+    }
+    
 
     @PutMapping("/productos/{id_producto}/{index_imagen}")
     public ResponseEntity<ImagenDTO> updateByProductoId(@PathVariable Integer id_producto) {
