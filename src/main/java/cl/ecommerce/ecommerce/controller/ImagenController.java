@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.ecommerce.ecommerce.dto.ImagenDTO;
+import cl.ecommerce.ecommerce.dto.ProductoDTO;
 import cl.ecommerce.ecommerce.service.impl.ImagenServiceImpl;
+import cl.ecommerce.ecommerce.service.impl.ProductoServiceImpl;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +31,19 @@ public class ImagenController {
     @Autowired  
     private ImagenServiceImpl imagenService;
 
+    @Autowired
+    private ProductoServiceImpl productoServiceImpl;
+
     @GetMapping("/productos/{id_producto}")
-    public ResponseEntity<List<ImagenDTO>> getAllByProductoId(@PathVariable Integer id_producto) {
-        return null;
+    public ResponseEntity<?> getAllByProductoId(@PathVariable Integer id_producto) {
+        ProductoDTO producto = productoServiceImpl.findById(id_producto);
+        if (producto == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        };
+
+        return ResponseEntity.ok(producto.getImagen());
+         
+
     }
 
     @GetMapping("/opiniones/{id_opinion}")
