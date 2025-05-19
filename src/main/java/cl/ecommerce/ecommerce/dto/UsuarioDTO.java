@@ -30,7 +30,10 @@ public class UsuarioDTO {
     private Integer dv;
 
     @Column(nullable=false) 
-    private String nombres;
+    private String pnombre;
+
+    @Column(nullable=false) 
+    private String snombre;
 
     @Column(nullable=false) 
     private String appaterno;
