@@ -33,11 +33,7 @@ public class UsuarioDTO {
     @Column(nullable=false) 
     private String pnombre;
 
-<<<<<<< Updated upstream
-    @Column(nullable=false) 
-=======
     @Column(nullable=true) 
->>>>>>> Stashed changes
     private String snombre;
 
     @Column(nullable=false) 
