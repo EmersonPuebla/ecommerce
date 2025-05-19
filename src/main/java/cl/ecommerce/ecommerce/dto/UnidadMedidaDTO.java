@@ -19,10 +19,10 @@ public class UnidadMedidaDTO {
     @Id
     private Integer id;
 
-    @Column
+    @Column (nullable=false)
     private String tipo;
 
-    @Column
+    @Column (nullable=false)
     private String simbolo;
 
 }
