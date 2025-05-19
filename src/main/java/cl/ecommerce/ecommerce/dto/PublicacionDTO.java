@@ -41,6 +41,6 @@ public class PublicacionDTO {
     private Date fecha;
 
     @Column(nullable = false)
-    private Integer calificacion;
+    private Long calificacion;
 
 }
