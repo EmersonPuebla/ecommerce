@@ -29,6 +29,13 @@ public class PublicacionServiceImpl implements IPublicacionService{
         return publicacionRepository.save(publicacion);
     }
 
+    public PublicacionDTO update(Integer id, PublicacionDTO publicacion){
+        if (publicacionRepository.findById(id) != null){
+            return publicacionRepository.save(publicacion);
+        }
+        return null;   
+    }
+
     public void delete(Integer id) {
         publicacionRepository.deleteById(id);
     }

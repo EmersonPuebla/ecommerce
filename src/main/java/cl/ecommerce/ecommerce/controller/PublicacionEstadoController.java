@@ -26,12 +26,12 @@ public class PublicacionEstadoController {
 
     @GetMapping 
     public ResponseEntity<List<PublicacionEstadoDTO>> getAll() {
-        List<PublicacionEstadoDTO> categorias = publicacionEstadoService.findAll();
+        List<PublicacionEstadoDTO> publicacionEstado = publicacionEstadoService.findAll();
 
-        if (categorias.isEmpty()) {
+        if (publicacionEstado.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(categorias);
+        return ResponseEntity.ok(publicacionEstado);
     }
 
    @GetMapping("/{id}")
