@@ -3,6 +3,7 @@ package cl.ecommerce.ecommerce.dto;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,9 +50,11 @@ public class UsuarioDTO {
     @Column(nullable=false) 
     private String correo;
 
+    @JsonIgnore
     @Column(nullable=false)
     private String hashContrasena;
 
+    @JsonIgnore
     @Column(nullable=false)
     private String salt;
 
