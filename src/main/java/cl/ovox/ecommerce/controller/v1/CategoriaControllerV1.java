@@ -20,7 +20,7 @@ import cl.ovox.ecommerce.service.impl.CategoriaServiceImpl;
 
 @RestController
 @RequestMapping("/api/v1/crud/categorias")
-public class CategoriaController {
+public class CategoriaControllerV1 {
 
     @Autowired
     private CategoriaServiceImpl categoriaService;

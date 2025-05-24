@@ -21,7 +21,7 @@ import cl.ovox.ecommerce.service.impl.UsuarioServiceImpl;
 @RestController
 @RequestMapping("/api/v1/crud/usuarios")
 
-public class UsuarioController {
+public class UsuarioControllerV1 {
  
     @Autowired
     private UsuarioServiceImpl usuarioService;

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("api/v1/crud/publicacionestado")
-public class PublicacionEstadoController {
+public class PublicacionEstadoControllerV1 {
 @Autowired
     private PublicacionEstadoServiceImpl publicacionEstadoService;
 

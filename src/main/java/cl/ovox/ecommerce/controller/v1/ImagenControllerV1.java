@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("api/v1/crud/imagenes")
-public class ImagenController {
+public class ImagenControllerV1 {
 
     /* 
     * NO Deberia haber un GetAllImagenes

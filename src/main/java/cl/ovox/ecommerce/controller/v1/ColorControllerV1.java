@@ -19,7 +19,7 @@ import cl.ovox.ecommerce.service.impl.ColorServiceImpl;
 
 @RestController
 @RequestMapping("/api/v1/crud/colores")
-public class ColorController {
+public class ColorControllerV1 {
 
     @Autowired
     private ColorServiceImpl colorService;

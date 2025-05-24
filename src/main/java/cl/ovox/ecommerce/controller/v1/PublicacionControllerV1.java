@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/crud/publicaciones")
-public class PublicacionController {
+public class PublicacionControllerV1 {
 
     @Autowired
     private PublicacionServiceImpl publicacionService;

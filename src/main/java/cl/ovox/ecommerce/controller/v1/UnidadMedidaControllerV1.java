@@ -18,7 +18,7 @@ import cl.ovox.ecommerce.service.impl.UnidadMedidaImpl;
 @RestController
 @RequestMapping("/api/v1/crud/unidadmedida")
 
-public class UnidadMedidaController {
+public class UnidadMedidaControllerV1 {
 
     @Autowired
     private UnidadMedidaImpl unidadMedidaService;

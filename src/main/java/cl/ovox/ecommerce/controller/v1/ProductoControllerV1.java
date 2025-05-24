@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/v1/crud/productos")
-public class ProductoController {
+public class ProductoControllerV1 {
     
     @Autowired
     private ProductoServiceImpl productoService;
