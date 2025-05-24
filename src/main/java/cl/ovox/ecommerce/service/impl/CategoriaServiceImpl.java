@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class CategoriaServiceImpl implements ICategoriaService {
     }
 
     @Override
-    public CategoriaDTO findById(Integer id) {
+    public CategoriaDTO findById(UUID id) {
         return categoriaRepository.findById(id).orElse(null);
     }   
 
@@ -32,7 +33,7 @@ public class CategoriaServiceImpl implements ICategoriaService {
     }
 
     @Override
-    public CategoriaDTO update(Integer id, CategoriaDTO categoria) {
+    public CategoriaDTO update(UUID id, CategoriaDTO categoria) {
         if (categoriaRepository.findById(id) != null) {
             return categoriaRepository.save(categoria);
         }
@@ -40,7 +41,7 @@ public class CategoriaServiceImpl implements ICategoriaService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(UUID id) {
         categoriaRepository.deleteById(id);
     }
 

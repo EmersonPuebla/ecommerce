@@ -1,6 +1,8 @@
 package cl.ovox.ecommerce.controller;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,7 @@ public class ImagenController {
     private ProductoServiceImpl productoServiceImpl;
 
     @GetMapping("/productos/{id_producto}")
-    public ResponseEntity<?> getAllByProductoId(@PathVariable Integer id_producto) {
+    public ResponseEntity<?> getAllByProductoId(@PathVariable UUID id_producto) {
         ProductoDTO producto = productoServiceImpl.findById(id_producto);
         if (producto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

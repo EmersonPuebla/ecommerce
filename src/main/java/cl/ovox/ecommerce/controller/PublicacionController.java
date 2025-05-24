@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +38,7 @@ public class PublicacionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PublicacionDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<PublicacionDTO> getById(@PathVariable UUID id) {
         PublicacionDTO producto = publicacionService.findById(id);
 
         if (producto == null) {
@@ -59,7 +60,7 @@ public class PublicacionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PublicacionDTO> updateProducto(@PathVariable Integer id, @RequestBody PublicacionDTO producto) {
+    public ResponseEntity<PublicacionDTO> updateProducto(@PathVariable UUID id, @RequestBody PublicacionDTO producto) {
         if (publicacionService.findById(id) == null) {
             return ResponseEntity.notFound().build();
         }
@@ -74,7 +75,7 @@ public class PublicacionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<?> eliminar(@PathVariable UUID id) {
         try {
             publicacionService.delete(id);
             return ResponseEntity.noContent().build();

@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import cl.ovox.ecommerce.dto.ImagenDTO;
+import cl.ovox.ecommerce.dto.TelefonoDTO;
 
-public interface ImagenRepository extends JpaRepository<ImagenDTO, UUID>{
-    
+public interface TelefonoRepository extends JpaRepository<TelefonoDTO, UUID>{
+
 }

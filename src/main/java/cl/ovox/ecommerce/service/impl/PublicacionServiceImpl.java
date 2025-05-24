@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class PublicacionServiceImpl implements IPublicacionService{
         return publicacionRepository.findAll();
     }
 
-    public PublicacionDTO findById(Integer id) {
+    public PublicacionDTO findById(UUID id) {
         return publicacionRepository.findById(id).get();
     }
 
@@ -29,14 +30,14 @@ public class PublicacionServiceImpl implements IPublicacionService{
         return publicacionRepository.save(publicacion);
     }
 
-    public PublicacionDTO update(Integer id, PublicacionDTO publicacion){
+    public PublicacionDTO update(UUID id, PublicacionDTO publicacion){
         if (publicacionRepository.findById(id) != null){
             return publicacionRepository.save(publicacion);
         }
         return null;   
     }
 
-    public void delete(Integer id) {
+    public void delete(UUID id) {
         publicacionRepository.deleteById(id);
     }
 

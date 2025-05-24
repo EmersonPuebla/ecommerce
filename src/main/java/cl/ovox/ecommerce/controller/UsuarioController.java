@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{run}")
-    public ResponseEntity<UsuarioDTO> getById(@PathVariable Integer run) {
+    public ResponseEntity<UsuarioDTO> getById(@PathVariable UUID run) {
         UsuarioDTO usuario = usuarioService.findById(run);
 
         if (usuario == null) {
@@ -49,7 +50,7 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> insertUsuario(@RequestBody UsuarioDTO usuario) {
-        if (usuarioService.findById(usuario.getRun()) != null) {
+        if (usuarioService.findById(usuario.getId()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
         }
         
@@ -58,12 +59,12 @@ public class UsuarioController {
     }
 
     @PutMapping("/{run}")
-    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Integer run, @RequestBody UsuarioDTO usuario) {
-        if (usuarioService.findById(run) == null) {
+    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable UUID id, @RequestBody UsuarioDTO usuario) {
+        if (usuarioService.findById(id) == null) {
             return ResponseEntity.notFound().build();
         }
     
-        UsuarioDTO newUsuario = usuarioService.update(run, usuario);
+        UsuarioDTO newUsuario = usuarioService.update(id, usuario);
 
         if (newUsuario != null) {
             return ResponseEntity.ok(usuario);        
@@ -73,8 +74,8 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{run}")
-    public ResponseEntity<?> deleteUsuario(@PathVariable Integer run) {
-        UsuarioDTO usuario = usuarioService.findById(run);
+    public ResponseEntity<?> deleteUsuario(@PathVariable UUID id) {
+        UsuarioDTO usuario = usuarioService.findById(id);
         
         if (usuario != null) {
             return ResponseEntity.ok(usuario); 

@@ -1,16 +1,19 @@
 package cl.ovox.ecommerce.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import cl.ovox.ecommerce.model.base.UUIDBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -18,21 +21,23 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OpinionDTO {
-    @Id
-    private Integer id;
+@EqualsAndHashCode(callSuper = true)
+public class OpinionDTO extends UUIDBaseEntity{
 
     @OneToMany
     @JoinColumn(nullable = true)
-    private List<ImagenDTO> imagen;
+    private List<ImagenDTO> imagenes;
 
     @Column(nullable = false)
-    private Date fecha;
+    private LocalDateTime fecha;
 
     @Column(nullable = false)
     private String mensaje;
 
     @Column(nullable = false)
+    // Es necesario usar @Valid en el controller para que maneje esta validacion correctamente
+    @Min(value = 1, message = "La calificación debe ser al menos 1")
+    @Max(value = 5, message = "La calificación no puede exceder 5")
     private Integer calificacion;
 
 }

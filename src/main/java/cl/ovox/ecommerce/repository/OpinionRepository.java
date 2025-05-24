@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import cl.ovox.ecommerce.dto.ImagenDTO;
+import cl.ovox.ecommerce.dto.OpinionDTO;
 
-public interface ImagenRepository extends JpaRepository<ImagenDTO, UUID>{
+public interface OpinionRepository extends JpaRepository<OpinionDTO, UUID>{
     
 }

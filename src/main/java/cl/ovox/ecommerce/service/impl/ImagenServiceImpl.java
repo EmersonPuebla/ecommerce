@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ImagenServiceImpl implements IImagenService{
         return imagenRepository.findAll();
     }
 
-    public ImagenDTO findById(String id) {
+    public ImagenDTO findById(UUID id) {
         return imagenRepository.findById(id).orElse(null);
     }
 
@@ -28,14 +29,14 @@ public class ImagenServiceImpl implements IImagenService{
         return imagenRepository.save(imagen);
     }
 
-    public ImagenDTO update(String id, ImagenDTO imagen) {
+    public ImagenDTO update(UUID id, ImagenDTO imagen) {
         if (imagenRepository.findById(id) != null) {
             return imagenRepository.save(imagen);
         }
         return null;
     }
 
-    public void delete(String id) {
+    public void delete(UUID id) {
         imagenRepository.deleteById(id);
     }
 

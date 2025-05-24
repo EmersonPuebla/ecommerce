@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
         return usuarioRepository.findAll();
     }
 
-    public UsuarioDTO findById(Integer run) {
+    public UsuarioDTO findById(UUID run) {
         return usuarioRepository.findById(run).get();
     }
 
@@ -29,7 +30,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
         return usuarioRepository.save(usuario);
     }
 
-    public UsuarioDTO update(Integer run, UsuarioDTO usuario){
+    public UsuarioDTO update(UUID run, UsuarioDTO usuario){
         if (usuarioRepository.findById(run) != null){
             return usuarioRepository.save(usuario);
         }
@@ -37,7 +38,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
         
     }
 
-    public void delete(Integer run) {
+    public void delete(UUID run) {
         usuarioRepository.deleteById(run);
     }
 

@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class CategoriaController {
     }
 
    @GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<CategoriaDTO> getById(@PathVariable UUID id) {
         CategoriaDTO categoria = categoriaService.findById(id);
 
         if (categoria == null) {
@@ -57,7 +58,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable Integer id, @RequestBody CategoriaDTO categoria) {
+    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable UUID id, @RequestBody CategoriaDTO categoria) {
         if (categoriaService.findById(id) == null) {
             return ResponseEntity.notFound().build();
         }
@@ -72,7 +73,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<?> eliminar(@PathVariable UUID id) {
         try {
             categoriaService.delete(id);
             return ResponseEntity.noContent().build();
