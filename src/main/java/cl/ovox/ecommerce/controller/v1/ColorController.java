@@ -45,12 +45,8 @@ public class ColorController {
         return ResponseEntity.ok(color);
     }
 
-     @PostMapping
+    @PostMapping
     public ResponseEntity<?> insertColor(@RequestBody ColorDTO color) {
-
-        if (colorService.findById(color.getId()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
-        }
 
         ColorDTO newColor = colorService.save(color);
         return ResponseEntity.status(HttpStatus.CREATED).body(newColor);

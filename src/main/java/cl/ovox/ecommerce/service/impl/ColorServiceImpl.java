@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,17 @@ public class ColorServiceImpl implements IColorService {
 
     @Override
     public ColorDTO save(ColorDTO color) {
+        String nombreNormalizado = color.getNombre().toLowerCase();
+        color.setNombre(nombreNormalizado);
+
+        Optional<ColorDTO> existingColor = colorRepository.findByNombre(nombreNormalizado);
+
+        if (existingColor.isPresent()) {
+            if (color.getId() == null || !color.getId().equals(existingColor.get().getId())) {
+                throw new IllegalArgumentException("El color '" + color.getNombre() + "' ya existe.");
+            }
+        }
+
         return colorRepository.save(color);
     }
 
