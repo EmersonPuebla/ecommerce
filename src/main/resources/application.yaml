@@ -1,0 +1,15 @@
+spring:
+    application:
+        name: ecommerce
+    
+    jpa:
+        hibernate:
+            ddl-auto: update
+
+    datasource:
+        driver-class-name: oracle.jdbc.OracleDriver
+        username: ecommerce
+        password: Oracle.1234567890
+
+server:
+    port: 5600
