@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EcommerceApplication",
+            "request": "launch",
+            "mainClass": "cl.ovox.ecommerce.EcommerceApplication",
+            "projectName": "ecommerce"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-EcommerceApplication<ecommerce>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

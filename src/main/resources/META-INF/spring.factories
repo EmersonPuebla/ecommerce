@@ -1,2 +1,2 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-cl.ecommerce.ecommerce.config.DynamicTNSConfig
+cl.ovox.ecommerce.config.DynamicTNSConfig
