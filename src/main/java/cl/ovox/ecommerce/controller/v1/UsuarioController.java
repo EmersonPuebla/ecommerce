@@ -1,4 +1,4 @@
-package cl.ovox.ecommerce.controller;
+package cl.ovox.ecommerce.controller.v1;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +19,7 @@ import cl.ovox.ecommerce.dto.UsuarioDTO;
 import cl.ovox.ecommerce.service.impl.UsuarioServiceImpl;
 
 @RestController
-@RequestMapping("/api/crud/usuarios")
+@RequestMapping("/api/v1/crud/usuarios")
 
 public class UsuarioController {
  

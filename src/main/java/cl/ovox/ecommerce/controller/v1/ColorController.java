@@ -1,4 +1,4 @@
-package cl.ovox.ecommerce.controller;
+package cl.ovox.ecommerce.controller.v1;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import cl.ovox.ecommerce.dto.ColorDTO;
 import cl.ovox.ecommerce.service.impl.ColorServiceImpl;
 
 @RestController
-@RequestMapping("/api/crud/colores")
+@RequestMapping("/api/v1/crud/colores")
 public class ColorController {
 
     @Autowired

@@ -1,4 +1,4 @@
-package cl.ovox.ecommerce.controller;
+package cl.ovox.ecommerce.controller.v1;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import cl.ovox.ecommerce.dto.UnidadMedidaDTO;
 import cl.ovox.ecommerce.service.impl.UnidadMedidaImpl;
 
 @RestController
-@RequestMapping("/api/crud/unidadmedida")
+@RequestMapping("/api/v1/crud/unidadmedida")
 
 public class UnidadMedidaController {
 

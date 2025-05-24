@@ -1,4 +1,4 @@
-package cl.ovox.ecommerce.controller;
+package cl.ovox.ecommerce.controller.v1;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
-@RequestMapping("api/crud/publicacionestado")
+@RequestMapping("api/v1/crud/publicacionestado")
 public class PublicacionEstadoController {
 @Autowired
     private PublicacionEstadoServiceImpl publicacionEstadoService;

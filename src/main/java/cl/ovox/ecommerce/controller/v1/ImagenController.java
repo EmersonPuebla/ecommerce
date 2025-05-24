@@ -1,4 +1,4 @@
-package cl.ovox.ecommerce.controller;
+package cl.ovox.ecommerce.controller.v1;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("api/crud/imagenes")
+@RequestMapping("api/v1/crud/imagenes")
 public class ImagenController {
 
     /* 

@@ -1,36 +1,35 @@
-package cl.ovox.ecommerce.controller;
+package cl.ovox.ecommerce.controller.v1;
 
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.RestController;
+
+import cl.ovox.ecommerce.dto.PublicacionDTO;
+import cl.ovox.ecommerce.service.impl.PublicacionServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import cl.ovox.ecommerce.dto.ProductoDTO;
-import cl.ovox.ecommerce.service.impl.ProductoServiceImpl;
-
 import org.springframework.web.bind.annotation.PutMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/crud/productos")
-public class ProductoController {
-    
+@RequestMapping("/api/v1/crud/publicaciones")
+public class PublicacionController {
+
     @Autowired
-    private ProductoServiceImpl productoService;
+    private PublicacionServiceImpl publicacionService;
 
 
     @GetMapping 
-    public ResponseEntity<List<ProductoDTO>> getAll() {
-        List<ProductoDTO> productos = productoService.findAll();
+    public ResponseEntity<List<PublicacionDTO>> getAll() {
+        List<PublicacionDTO> productos = publicacionService.findAll();
 
         if (productos.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -39,8 +38,8 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoDTO> getById(@PathVariable UUID id) {
-        ProductoDTO producto = productoService.findById(id);
+    public ResponseEntity<PublicacionDTO> getById(@PathVariable UUID id) {
+        PublicacionDTO producto = publicacionService.findById(id);
 
         if (producto == null) {
             return ResponseEntity.noContent().build();
@@ -50,25 +49,25 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insertProducto(@RequestBody ProductoDTO producto) {
+    public ResponseEntity<?> insertProducto(@RequestBody PublicacionDTO producto) {
 
-        if (productoService.findById(producto.getId()) != null) {
+        if (publicacionService.findById(producto.getId()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
         }
 
-        ProductoDTO newProducto = productoService.save(producto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newProducto);
+        PublicacionDTO newPublicacion = publicacionService.save(producto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newPublicacion);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductoDTO> updateProducto(@PathVariable UUID id, @RequestBody ProductoDTO producto) {
-        if (productoService.findById(id) == null) {
+    public ResponseEntity<PublicacionDTO> updateProducto(@PathVariable UUID id, @RequestBody PublicacionDTO producto) {
+        if (publicacionService.findById(id) == null) {
             return ResponseEntity.notFound().build();
         }
     
-        ProductoDTO newProducto = productoService.update(id, producto);
+        PublicacionDTO newPublicacion = publicacionService.update(id, producto);
 
-        if (newProducto != null) {
+        if (newPublicacion != null) {
             return ResponseEntity.ok(producto);        
         }
         
@@ -78,10 +77,12 @@ public class ProductoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable UUID id) {
         try {
-            productoService.delete(id);
+            publicacionService.delete(id);
             return ResponseEntity.noContent().build();
         } catch ( Exception e ) {
             return  ResponseEntity.notFound().build();
         }
     }
+
+
 }
