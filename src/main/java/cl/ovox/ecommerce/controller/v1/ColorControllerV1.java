@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.ovox.ecommerce.dto.ColorDTO;
+import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.ColorServiceImpl;
 
 @RestController
@@ -25,13 +26,15 @@ public class ColorControllerV1 {
     private ColorServiceImpl colorService;
 
     @GetMapping 
-    public ResponseEntity<List<ColorDTO>> getAll() {
+    public ResponseEntity<ApiResponse<List<ColorDTO>>> getAll() {
         List<ColorDTO> colores = colorService.findAll();
 
         if (colores.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.notFound("No se han encontrado colores");
         }
-        return ResponseEntity.ok(colores);
+        
+        String mensaje = "Se han encontrado " + colores.size() + " colores.";
+        return ApiResponse.success(colores, mensaje);
     }
 
    @GetMapping("/{id}")
@@ -46,10 +49,13 @@ public class ColorControllerV1 {
     }
 
     @PostMapping
-    public ResponseEntity<?> insertColor(@RequestBody ColorDTO color) {
+    public ResponseEntity<ApiResponse<ColorDTO>> insertColor(@RequestBody ColorDTO color) {
 
+        // if (colorService.findById(color.getId()) != null) {
+        //     return ApiResponse.error(HttpStatus.CONFLICT, "No se ha podido agregar el color", "U-POST-01");
+        // }
         ColorDTO newColor = colorService.save(color);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newColor);
+        return ApiResponse.success(newColor, "Se ha registrado exitosamente el color.");
     }
 
     @PutMapping("/{id}")
