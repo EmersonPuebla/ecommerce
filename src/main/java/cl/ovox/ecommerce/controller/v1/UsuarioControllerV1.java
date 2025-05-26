@@ -84,10 +84,11 @@ public class UsuarioControllerV1 {
         UsuarioDTO usuario = usuarioService.findByRut(rut);
         
         if (usuario != null) {
-            return ResponseEntity.ok(usuario); 
+            usuarioService.delete(rut);
+            return ApiResponse.success("Se ha eliminado exitosamente al usuario rut: " + rut); 
         }
         
-        return ResponseEntity.notFound().build();
+        return ApiResponse.notFound("No se ha encontrado a ningún usuario con el rut " + rut);
     }
 
 }
