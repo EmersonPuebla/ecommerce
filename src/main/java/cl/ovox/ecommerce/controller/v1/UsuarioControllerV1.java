@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.ovox.ecommerce.dto.UsuarioDTO;
+import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.UsuarioServiceImpl;
 
 @RestController
@@ -28,35 +29,38 @@ public class UsuarioControllerV1 {
 
 
     @GetMapping 
-    public ResponseEntity<List<UsuarioDTO>> getAll() {
+    public ResponseEntity<ApiResponse<List<UsuarioDTO>>> getAll() {
         List<UsuarioDTO> usuarios = usuarioService.findAll();
 
         if (usuarios.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.notFound("No se han encontrado usuarios.");
         }
-        return ResponseEntity.ok(usuarios);
-    }
 
-    @GetMapping("/{run}")
-    public ResponseEntity<UsuarioDTO> getById(@PathVariable UUID run) {
-        UsuarioDTO usuario = usuarioService.findById(run);
+        String mensaje = "Se han encontrado " + usuarios.size() + " usuarios.";
+        return ApiResponse.success(usuarios, mensaje);
+    }
+//
+    @GetMapping("/{rut}")
+    public ResponseEntity<ApiResponse<UsuarioDTO>> getById(@PathVariable Integer rut) {
+        UsuarioDTO usuario = usuarioService.findByRut(rut);
 
         if (usuario == null) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.notFound("No se encontró al usuario con RUN: " + rut);
         }
 
-        return ResponseEntity.ok(usuario);
+        return ApiResponse.success(usuario, "Se ha encontrado al usuario exitosamente");
     }
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> insertUsuario(@RequestBody UsuarioDTO usuario) {
-        if (usuarioService.findById(usuario.getId()) != null) {
+        if (usuarioService.findByRut(usuario.) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
         }
         
         UsuarioDTO newUsuario = usuarioService.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUsuario);
     }
+
 
     @PutMapping("/{run}")
     public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable UUID id, @RequestBody UsuarioDTO usuario) {

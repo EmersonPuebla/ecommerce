@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cl.ovox.ecommerce.dto.ProductoEstadoDTO;
 import cl.ovox.ecommerce.dto.UsuarioDTO;
 import cl.ovox.ecommerce.repository.UsuarioRepository;
 import cl.ovox.ecommerce.service.IUsuarioService;
@@ -36,6 +37,13 @@ public class UsuarioServiceImpl implements IUsuarioService{
         }
         return null;
         
+    }
+
+    public UsuarioDTO findByRut(Integer rut) {
+        if (rut == null) {
+            return null;
+        }
+        return usuarioRepository.findByRut(rut).orElse(null);
     }
 
     public void delete(UUID run) {
