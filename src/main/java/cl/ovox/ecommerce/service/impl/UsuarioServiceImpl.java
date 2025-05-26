@@ -23,16 +23,12 @@ public class UsuarioServiceImpl implements IUsuarioService{
         return usuarioRepository.findAll();
     }
 
-    public UsuarioDTO findById(UUID run) {
-        return usuarioRepository.findById(run).get();
-    }
-
     public UsuarioDTO save(UsuarioDTO usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public UsuarioDTO update(UUID run, UsuarioDTO usuario){
-        if (usuarioRepository.findById(run) != null){
+    public UsuarioDTO update(Integer rut, UsuarioDTO usuario){
+        if (usuarioRepository.findByRut(rut) != null){
             return usuarioRepository.save(usuario);
         }
         return null;
@@ -43,8 +39,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
         return usuarioRepository.findByRut(rut).orElse(null);
     }
 
-    public void delete(UUID run) {
-        usuarioRepository.deleteById(run);
+    public void delete(Integer rut) {
+        usuarioRepository.deleteByRut(rut);
     }
 
 }
