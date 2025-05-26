@@ -39,13 +39,13 @@ public class UsuarioControllerV1 {
         String mensaje = "Se han encontrado " + usuarios.size() + " usuarios.";
         return ApiResponse.success(usuarios, mensaje);
     }
-//
+
     @GetMapping("/{rut}")
     public ResponseEntity<ApiResponse<UsuarioDTO>> getById(@PathVariable Integer rut) {
         UsuarioDTO usuario = usuarioService.findByRut(rut);
 
         if (usuario == null) {
-            return ApiResponse.notFound("No se encontró al usuario con RUN: " + rut);
+            return ApiResponse.notFound("No se encontró al usuario con RUT: " + rut);
         }
 
         return ApiResponse.success(usuario, "Se ha encontrado al usuario exitosamente");
@@ -53,7 +53,7 @@ public class UsuarioControllerV1 {
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> insertUsuario(@RequestBody UsuarioDTO usuario) {
-        if (usuarioService.findByRut(usuario.) != null) {
+        if (usuarioService.findByRut(usuario.getRut()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
         }
         
