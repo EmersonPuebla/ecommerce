@@ -9,5 +9,5 @@ import cl.ovox.ecommerce.dto.UsuarioDTO;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioDTO, UUID> {
 
-    Optional<UsuarioDTO> findByRut(Integer run);
+    Optional<UsuarioDTO> findByRut(Integer rut);
 }
