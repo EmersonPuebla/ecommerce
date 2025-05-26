@@ -14,6 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +29,7 @@ import lombok.NoArgsConstructor;
 public class UsuarioDTO extends UUIDBaseEntity {
 
     @Column(nullable = false)
-    private Integer run;
+    private Integer rut;
 
     @Column(nullable = false, unique = true, columnDefinition = "NUMBER(3)")
     private Integer dv;
@@ -55,14 +56,19 @@ public class UsuarioDTO extends UUIDBaseEntity {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime fechaRegistro;
 
-    @Column(nullable=false) 
+    @Column(nullable = false) 
     private String correo;
+
+    @Column(nullable = false)
+    private String telefono;
 
     @JsonIgnore
     @Column(nullable=false)
+    @NotBlank
     private String password;
 
     @JsonIgnore
     @Column(nullable=false)
+    @NotBlank
     private String salt;
 }

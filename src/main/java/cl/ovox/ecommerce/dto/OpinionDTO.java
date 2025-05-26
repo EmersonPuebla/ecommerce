@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList; // Necesario para inicializar
 import java.util.List;
 
 import cl.ovox.ecommerce.model.base.UUIDBaseEntity;
@@ -24,9 +25,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class OpinionDTO extends UUIDBaseEntity{
 
-    @OneToMany
-    @JoinColumn(nullable = true)
-    private List<ImagenDTO> imagenes;
+    // ¡¡CORRECCIÓN CLAVE AQUÍ!! mappedBy debe ser "opinion"
+    @OneToMany(mappedBy = "opinion") 
+    private List<ImagenDTO> imagenes = new ArrayList<>(); // ¡Inicializado!
 
     @Column(nullable = false)
     private LocalDateTime fecha;

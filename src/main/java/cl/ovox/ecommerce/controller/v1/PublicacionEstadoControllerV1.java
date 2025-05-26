@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
-@RequestMapping("api/v1/crud/publicacionestado")
+@RequestMapping("api/v1/crud/publicacion_estado")
 public class PublicacionEstadoControllerV1 {
 @Autowired
     private PublicacionEstadoServiceImpl publicacionEstadoService;

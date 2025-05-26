@@ -1,11 +1,19 @@
 package cl.ovox.ecommerce.dto;
 
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.Entity;
+
+import java.util.ArrayList; // Necesario para inicializar
+import java.util.List;
+
 import cl.ovox.ecommerce.model.base.UUIDBaseEntity;
 import jakarta.persistence.Column;
 import lombok.Data;
@@ -26,26 +34,41 @@ public class ProductoDTO extends UUIDBaseEntity {
     private String sku;
 
     @Column(nullable = false)
+    @Size(min = 5, max = 60)
     private String nombre;
 
     @Column(nullable = false)
+    @Size(min = 0, max = 4000)
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(nullable = true)
-    private ColorDTO color;
-    
-    @ManyToOne
-    @JoinColumn(nullable = true)
-    private ImagenDTO imagen;
+    @JoinColumn(name = "producto_estado_id", nullable = false)
+    private ProductoEstadoDTO productoEstado;
 
-    @ManyToOne
-    @JoinColumn(nullable = true)
-    private CategoriaDTO categoria;
+    @ManyToMany
+    @JoinTable(
+        name = "PRODUCTO_COLOR",
+        joinColumns = @JoinColumn(name = "producto_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "color_id", referencedColumnName = "id")
+    )
+    private List<ColorDTO> colores = new ArrayList<>(); // ¡Inicializado!
+    
+    @OneToMany(mappedBy = "producto")
+    private List<ImagenDTO> imagenes = new ArrayList<>(); // ¡Inicializado!
+
+   @ManyToMany
+    @JoinTable(
+        name = "PRODUCTO_CATEGORIA", // Tabla de unión
+        joinColumns = @JoinColumn(name = "producto_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    )
+    private List<CategoriaDTO> categorias = new ArrayList<>(); // ¡Inicializado!
 
     @Column(nullable = false)
+    @Min(value = 0)
     private Integer precio;
 
     @Column(nullable = false)
+    @Min(value = 0)
     private Integer stock;    
 }
