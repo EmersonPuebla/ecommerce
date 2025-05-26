@@ -74,7 +74,7 @@ public class UsuarioControllerV1 {
             return ResponseEntity.ok(usuario);        
         }
         
-        return ResponseEntity.internalServerError().build();
+        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Algo a salido mal");
     }
 
 
