@@ -52,32 +52,28 @@ public class UsuarioControllerV1 {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> insertUsuario(@RequestBody UsuarioDTO usuario) {
+    public ResponseEntity<ApiResponse<UsuarioDTO>> insertUsuario(@RequestBody UsuarioDTO usuario) {
         if (usuarioService.findByRut(usuario.getRut()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
+            return ApiResponse.error(HttpStatus.CONFLICT, "No se ha podido agregar al usuario", "U-POST-01");
         }
         
         UsuarioDTO newUsuario = usuarioService.save(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUsuario);
+        return ApiResponse.success(newUsuario, "Se ha creado exitosamente el usuario");
     }
 
 
-    @PutMapping("/{run}")
-    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable UUID id, @RequestBody UsuarioDTO usuario) {
-        if (usuarioService.findById(id) == null) {
-            return ResponseEntity.notFound().build();
+    @PutMapping("/{rut}")
+    public ResponseEntity<ApiResponse<UsuarioDTO>> updateUsuario(@PathVariable Integer rut, @RequestBody UsuarioDTO usuario) {
+        if (usuarioService.findByRut(rut) == null) {
+            return ApiResponse.notFound("No se ha encontrado a un usuario con el rut " + rut);
         }
     
-        UsuarioDTO newUsuario = usuarioService.update(id, usuario);
-
-        if (newUsuario != null) {
-            return ResponseEntity.ok(usuario);        
+        if (usuarioService.update(rut, usuario) != null) {
+            ApiResponse.success(usuario, "Se actualizado exitosamente el usuario con el rut " + rut);
         }
         
-        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Algo a salido mal");
+        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Algo a salido mal", "U-PUT-01");
     }
-
-
 
     @DeleteMapping("/{rut}")
     public ResponseEntity<?> deleteUsuario(@PathVariable Integer rut) {
