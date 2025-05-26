@@ -40,9 +40,6 @@ public class UsuarioServiceImpl implements IUsuarioService{
     }
 
     public UsuarioDTO findByRut(Integer rut) {
-        if (rut == null) {
-            return null;
-        }
         return usuarioRepository.findByRut(rut).orElse(null);
     }
 
