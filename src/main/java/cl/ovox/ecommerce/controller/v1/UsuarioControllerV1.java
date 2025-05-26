@@ -77,9 +77,11 @@ public class UsuarioControllerV1 {
         return ResponseEntity.internalServerError().build();
     }
 
-    @DeleteMapping("/{run}")
-    public ResponseEntity<?> deleteUsuario(@PathVariable UUID id) {
-        UsuarioDTO usuario = usuarioService.findById(id);
+
+
+    @DeleteMapping("/{rut}")
+    public ResponseEntity<?> deleteUsuario(@PathVariable Integer rut) {
+        UsuarioDTO usuario = usuarioService.findByRut(rut);
         
         if (usuario != null) {
             return ResponseEntity.ok(usuario); 
