@@ -1,7 +1,6 @@
 package cl.ovox.ecommerce.controller.v1;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.ovox.ecommerce.dto.CategoriaDTO;
+import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.CategoriaServiceImpl;
 
 @RestController
@@ -36,8 +36,8 @@ public class CategoriaControllerV1 {
     }
 
    @GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> getById(@PathVariable UUID id) {
-        CategoriaDTO categoria = categoriaService.findById(id);
+    public ResponseEntity<CategoriaDTO> getById(@PathVariable String nombre) {
+        CategoriaDTO categoria = categoriaService.findByNombre(nombre);
 
         if (categoria == null) {
             return ResponseEntity.noContent().build();
@@ -49,21 +49,21 @@ public class CategoriaControllerV1 {
      @PostMapping
     public ResponseEntity<?> insertCategoria(@RequestBody CategoriaDTO categoria) {
 
-        if (categoriaService.findById(categoria.getId()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
+        if (categoriaService.findByNombre(categoria.getNombre()) != null) {
+            return ApiResponse.error(HttpStatus.CONFLICT, "La categoria " + categoria.getNombre() + " ya existe.", "C-POST-01");       
         }
 
         CategoriaDTO newCategoria = categoriaService.save(categoria);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newCategoria);
+        return ApiResponse.success(newCategoria, "Se ha insertado exitosamente la categoria");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable UUID id, @RequestBody CategoriaDTO categoria) {
-        if (categoriaService.findById(id) == null) {
+    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable String nombre, @RequestBody CategoriaDTO categoria) {
+        if (categoriaService.findByNombre(nombre) == null) {
             return ResponseEntity.notFound().build();
         }
     
-        CategoriaDTO newCategoria = categoriaService.update(id, categoria);
+        CategoriaDTO newCategoria = categoriaService.update(nombre, categoria);
 
         if (newCategoria != null) {
             return ResponseEntity.ok(categoria);        
@@ -73,9 +73,9 @@ public class CategoriaControllerV1 {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable UUID id) {
+    public ResponseEntity<?> eliminar(@PathVariable String nombre) {
         try {
-            categoriaService.delete(id);
+            categoriaService.delete(nombre);
             return ResponseEntity.noContent().build();
         } catch ( Exception e ) {
             return  ResponseEntity.notFound().build();

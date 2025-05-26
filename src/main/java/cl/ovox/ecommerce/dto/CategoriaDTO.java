@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class CategoriaDTO extends UUIDBaseEntity {
     @Column(nullable = false)
-    private String categoria;
+    private String nombre;
 
     @ManyToMany(mappedBy = "categorias")
     private List<ProductoDTO> productos;
