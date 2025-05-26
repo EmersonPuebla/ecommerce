@@ -26,24 +26,24 @@ public class CategoriaControllerV1 {
     private CategoriaServiceImpl categoriaService;
 
     @GetMapping 
-    public ResponseEntity<List<CategoriaDTO>> getAll() {
+    public ResponseEntity<ApiResponse<List<CategoriaDTO>>> getAll() {
         List<CategoriaDTO> categorias = categoriaService.findAll();
 
         if (categorias.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.error(HttpStatus.NOT_FOUND, "No existen categorias disponibles.", "C-GET-01");       
         }
-        return ResponseEntity.ok(categorias);
+        return ApiResponse.success(categorias, "Se han encontrado " + categorias.size() + " categorias.");
     }
 
    @GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> getById(@PathVariable String nombre) {
+    public ResponseEntity<ApiResponse<CategoriaDTO>> getById(@PathVariable String nombre) {
         CategoriaDTO categoria = categoriaService.findByNombre(nombre);
 
         if (categoria == null) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.error(HttpStatus.NOT_FOUND, "No existe la categoria ingresada.", "C-GET-NAME-01");       
         }
 
-        return ResponseEntity.ok(categoria);
+        return ApiResponse.success(categoria, "Se han encontrado la categoria " + categoria.getNombre() + " exitosamente.");
     }
 
      @PostMapping
@@ -58,7 +58,7 @@ public class CategoriaControllerV1 {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable String nombre, @RequestBody CategoriaDTO categoria) {
+    public ResponseEntity<ApiResponse<CategoriaDTO>> updateCategoria(@PathVariable String nombre, @RequestBody CategoriaDTO categoria) {
         if (categoriaService.findByNombre(nombre) == null) {
             return ResponseEntity.notFound().build();
         }
@@ -66,19 +66,20 @@ public class CategoriaControllerV1 {
         CategoriaDTO newCategoria = categoriaService.update(nombre, categoria);
 
         if (newCategoria != null) {
-            return ResponseEntity.ok(categoria);        
+            return ApiResponse.success(newCategoria, "Categoria actualizada exitosamente.");        
         }
         
-        return ResponseEntity.internalServerError().build();
+        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "La categoria no ha podido ser actualizada.", "C-PUT-01");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable String nombre) {
+    public ResponseEntity<ApiResponse<?>> eliminar(@PathVariable String nombre) {
         try {
             categoriaService.delete(nombre);
-            return ResponseEntity.noContent().build();
+            // PENDIENTE ARREGLAR ESTE FOKIN ERROR 
+            return ApiResponse.success(newCategoria, "Categoria actualizada exitosamente.");
         } catch ( Exception e ) {
-            return  ResponseEntity.notFound().build();
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "La categoria no se logró eliminar", "C-DELETE-01");
         }
     }
     
