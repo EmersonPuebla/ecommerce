@@ -25,7 +25,5 @@ public class ColorDTO {
 
     @Column(nullable = false, unique = true)
     private String nombre;
-
-    @ManyToMany(mappedBy = "colores")
-    private List<ProductoDTO> productos;
+    
 }
