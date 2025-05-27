@@ -74,13 +74,13 @@ public class CategoriaControllerV1 {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> eliminar(@PathVariable String nombre) {
-        try {
-            categoriaService.delete(nombre);
+        //try {
+           // categoriaService.delete(nombre);
             // PENDIENTE ARREGLAR ESTE FOKIN ERROR 
-            return ApiResponse.success(newCategoria, "Categoria actualizada exitosamente.");
-        } catch ( Exception e ) {
-            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "La categoria no se logró eliminar", "C-DELETE-01");
-        }
+            return null;//ApiResponse.success(newCategoria, "Categoria actualizada exitosamente.");
+        //} catch ( Exception e ) {
+        //    return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "La categoria no se logró eliminar", "C-DELETE-01");
+        //}
     }
     
 
