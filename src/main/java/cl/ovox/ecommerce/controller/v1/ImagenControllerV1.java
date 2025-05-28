@@ -88,12 +88,4 @@ public class ImagenControllerV1 {
     public ResponseEntity<ImagenDTO> deleteById(@PathVariable Integer productoId, @PathVariable Integer index_imagen){
         return null;
     }
-
-    // insert
-    //@PostMapping
-    //public ResponseEntity<?> insertImagen(@RequestBody )
-    
-
-    // @DeleteMapping
-
 }
