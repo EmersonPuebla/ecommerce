@@ -60,7 +60,7 @@ public class CategoriaControllerV1 {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<CategoriaDTO>> updateCategoria(@PathVariable String nombre, @RequestBody CategoriaDTO categoria) {
         if (categoriaService.findByNombre(nombre) == null) {
-            return ResponseEntity.notFound().build();
+            return ApiResponse.notFound("No se encontro la categoria " + nombre);
         }
     
         CategoriaDTO newCategoria = categoriaService.update(nombre, categoria);
@@ -73,10 +73,10 @@ public class CategoriaControllerV1 {
     }
 
     @DeleteMapping("/{nombre}")
-public ResponseEntity<ApiResponse<?>> eliminar(@PathVariable String nombre) {
+public ResponseEntity<?> delete(@PathVariable String nombre) {
     try {
         categoriaService.delete(nombre);
-        return ApiResponse.success(null, "La categoría fue eliminada exitosamente.");
+        return ApiResponse.success("La categoría fue eliminada exitosamente.");
     } catch (Exception e) {
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se logró eliminar la categoría.", "C-DELETE-01");
     }
