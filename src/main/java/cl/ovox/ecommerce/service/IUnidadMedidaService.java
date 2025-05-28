@@ -10,6 +10,6 @@ public interface IUnidadMedidaService{
     UnidadMedidaDTO findById(Integer id);
     UnidadMedidaDTO save(UnidadMedidaDTO unidad_medida);
     UnidadMedidaDTO update(Integer id, UnidadMedidaDTO unidad_medida);
-    void delete(Integer id);
+    boolean delete(Integer id);
 
 }

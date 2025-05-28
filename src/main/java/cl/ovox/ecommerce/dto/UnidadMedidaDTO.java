@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,12 @@ public class UnidadMedidaDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column (nullable=false)
-    private String tipo;
+    @Column (nullable=false, unique = true)
+    @NotBlank(message = "El nombre del tipo de unidad de medida no puede estar vacío")
+    private String nombre;
 
-    @Column (nullable=false)
+    @Column (nullable=false, unique = true)
+    @NotBlank(message = "El simbolo del tipo de medida no puede estar vacío")
     private String simbolo;
 
 }
