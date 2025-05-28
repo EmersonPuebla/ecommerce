@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import cl.ovox.ecommerce.dto.ColorDTO;
@@ -27,6 +28,13 @@ public class ColorServiceImpl implements IColorService {
     public ColorDTO findById(Integer id) {
         return colorRepository.findById(id).orElse(null);
     }
+    
+    public ColorDTO findByNombre(String nombre){
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return null;
+        }
+        return colorRepository.findByNombre(nombre.toLowerCase()).orElse(null);
+    }
 
     @Override
     public ColorDTO save(ColorDTO color) {
@@ -46,16 +54,37 @@ public class ColorServiceImpl implements IColorService {
 
     @Override
     public ColorDTO update(Integer id, ColorDTO color) {
-        if (colorRepository.findById(id) != null) {
-            return colorRepository.save(color);
+        if (color == null || color.getNombre() == null || color.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El color y su nombre no pueden ser nulos o vacíos para la actualización.");
         }
-        return null;
+
+        ColorDTO existingColor = colorRepository.findById(id).orElse(null);
+        if (existingColor == null) {
+            return null;
+        }
+
+        String nombreNormalizado = color.getNombre().trim().toLowerCase();
+        color.setNombre(nombreNormalizado);
+        color.setId(id);
+
+        Optional<ColorDTO> existingColorWithSameName = colorRepository.findByNombre(nombreNormalizado);
+        if (existingColorWithSameName.isPresent() && !existingColorWithSameName.get().getId().equals(id)) {
+            throw new IllegalArgumentException("El nombre '" + color.getNombre() + "' ya está en uso por otro estado.");
+        }
+
+        try {
+            return colorRepository.save(color);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Error al actualizar el estado: el nombre '" + color.getNombre() + "' ya está en uso.", e);
+        }
     }
 
     @Override
-    public void delete(Integer id) {
-        colorRepository.deleteById(id);
+    public boolean delete(Integer id) {
+        if (colorRepository.existsById(id)) {
+            colorRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
-
-    
 }

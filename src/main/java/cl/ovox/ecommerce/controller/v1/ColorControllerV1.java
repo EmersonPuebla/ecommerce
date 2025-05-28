@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ovox.ecommerce.dto.ColorDTO;
 import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.ColorServiceImpl;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/crud/colores")
@@ -38,50 +39,55 @@ public class ColorControllerV1 {
     }
 
    @GetMapping("/{id}")
-    public ResponseEntity<ColorDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<ColorDTO>> getById(@PathVariable Integer id) {
         ColorDTO color = colorService.findById(id);
 
         if (color == null) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.notFound("No se encontro el color con ID " + id);
         }
 
-        return ResponseEntity.ok(color);
+        return ApiResponse.success(color, "Se ha encontrado el color exitosamente.");
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<ColorDTO>> insertColor(@RequestBody ColorDTO color) {
 
-        // if (colorService.findById(color.getId()) != null) {
-        //     return ApiResponse.error(HttpStatus.CONFLICT, "No se ha podido agregar el color", "U-POST-01");
-        // }
-        ColorDTO newColor = colorService.save(color);
-        return ApiResponse.success(newColor, "Se ha registrado exitosamente el color.");
+         if (color.getId() != null && colorService.findById(color.getId()) != null) {
+            return ApiResponse.error(HttpStatus.CONFLICT, "El color con ID '" + color.getId() + "' ya existe. Por favor, no proporcione un ID para la creación, o use PUT para actualizar.", "PE-POST-01");
+        }
+
+        if (colorService.findByNombre(color.getNombre()) != null) {
+             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + color.getNombre() + "' ya existe.", "CO-POST-02");
+        }
+
+        ColorDTO savedColor = colorService.save(color);
+  
+        return ApiResponse.success(savedColor, "Se ha insertado exitosamente el color.");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ColorDTO> updateColor(@PathVariable Integer id, @RequestBody ColorDTO color) {
+    public ResponseEntity<ApiResponse<ColorDTO>> updateColor(@Valid @PathVariable Integer id, @RequestBody ColorDTO color) {
         if (colorService.findById(id) == null) {
-            return ResponseEntity.notFound().build();
+            return ApiResponse.notFound("No se ha encontrado el color con el ID " + id);
         }
     
-        ColorDTO newColor = colorService.update(id, color);
-
-        if (newColor != null) {
-            return ResponseEntity.ok(color);        
+        if (colorService.update(id, color) != null){
+            return ApiResponse.success("El color ID " + id + " se ha actualizado exitosamente");
         }
-        
-        return ResponseEntity.internalServerError().build();
+    
+        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se ha podido actualizar el color por un error interno.", "CO-PUT-01");
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
-        try {
-            colorService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch ( Exception e ) {
-            return  ResponseEntity.notFound().build();
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
+        if (colorService.findById(id) == null){
+            return ApiResponse.notFound("No existe un color con ID " + id);
         }
+        
+        if (colorService.delete(id)) {
+            return ApiResponse.success("El color " + id + " se ha eliminado exitosamente.");
+        }
+        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se ha podido eliminar el color por un error interno", "CO-DEL-02");
     }
-    
-
 }
