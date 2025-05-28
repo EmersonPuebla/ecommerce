@@ -86,7 +86,7 @@ public class ColorControllerV1 {
         }
         
         if (colorService.delete(id)) {
-            return ApiResponse.success(colorService.findById(id), "El color " + id + " se ha eliminado exitosamente.");
+            return ApiResponse.success("El color " + id + " se ha eliminado exitosamente.");
         }
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se ha podido eliminar el color por un error interno", "CO-DEL-02");
     }
