@@ -35,8 +35,8 @@ public class CategoriaControllerV1 {
         return ApiResponse.success(categorias, "Se han encontrado " + categorias.size() + " categorias.");
     }
 
-   @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<CategoriaDTO>> getById(@PathVariable String nombre) {
+   @GetMapping("/{nombre}")
+    public ResponseEntity<ApiResponse<CategoriaDTO>> getByNombre(@PathVariable String nombre) {
         CategoriaDTO categoria = categoriaService.findByNombre(nombre);
 
         if (categoria == null) {
@@ -57,8 +57,8 @@ public class CategoriaControllerV1 {
         return ApiResponse.success(newCategoria, "Se ha insertado exitosamente la categoria");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<CategoriaDTO>> updateCategoria(@PathVariable String nombre, @RequestBody CategoriaDTO categoria) {
+    @PutMapping("/{nombre}")
+    public ResponseEntity<ApiResponse<CategoriaDTO>> update(@PathVariable String nombre, @RequestBody CategoriaDTO categoria) {
         if (categoriaService.findByNombre(nombre) == null) {
             return ApiResponse.notFound("No se encontro la categoria " + nombre);
         }

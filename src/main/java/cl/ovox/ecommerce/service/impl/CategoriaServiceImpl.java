@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,18 @@ public class CategoriaServiceImpl implements ICategoriaService {
         return categoriaRepository.save(producto);
     }
 
-    @Override
-    public CategoriaDTO update(String nombre, CategoriaDTO categoria) {
-        if (categoriaRepository.findByNombre(nombre) != null) {
-            return categoriaRepository.save(categoria);
-        }
+@Override
+public CategoriaDTO update(String nombre, CategoriaDTO categoriaActualizada) {
+    Optional<CategoriaDTO> optionalExistente = categoriaRepository.findByNombre(nombre);
+    if (optionalExistente.isEmpty()) {
         return null;
     }
+
+    CategoriaDTO existente = optionalExistente.get();
+    existente.setNombre(categoriaActualizada.getNombre());
+
+    return categoriaRepository.save(existente);
+}
 
     @Override
     public void delete(String nombre) {
