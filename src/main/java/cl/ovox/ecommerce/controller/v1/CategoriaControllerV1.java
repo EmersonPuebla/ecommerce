@@ -72,16 +72,15 @@ public class CategoriaControllerV1 {
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "La categoria no ha podido ser actualizada.", "C-PUT-01");
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<?>> eliminar(@PathVariable String nombre) {
-        //try {
-           // categoriaService.delete(nombre);
-            // PENDIENTE ARREGLAR ESTE FOKIN ERROR 
-            return null;//ApiResponse.success(newCategoria, "Categoria actualizada exitosamente.");
-        //} catch ( Exception e ) {
-        //    return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "La categoria no se logró eliminar", "C-DELETE-01");
-        //}
+    @DeleteMapping("/{nombre}")
+public ResponseEntity<ApiResponse<?>> eliminar(@PathVariable String nombre) {
+    try {
+        categoriaService.delete(nombre);
+        return ApiResponse.success(null, "La categoría fue eliminada exitosamente.");
+    } catch (Exception e) {
+        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se logró eliminar la categoría.", "C-DELETE-01");
     }
+}
     
 
 }
