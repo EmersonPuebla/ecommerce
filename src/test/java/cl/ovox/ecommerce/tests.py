@@ -1,4 +1,4 @@
-from typing import List, Tuple, Optional # Importamos Optional
+from typing import Tuple, Optional
 from enum import Enum
 import requests
 
@@ -159,7 +159,7 @@ def RunTest(
         elif method == HttpMethod.DELETE:
             response = requests.delete(endpoint, headers=headers) # DELETE raramente lleva cuerpo
         else:
-            return False, f"Error: Método HTTP '{method.name}' no soportado."
+            return False, f"❌ Error: Método HTTP '{method.name}' no soportado."
 
         # Captura el contenido de la respuesta para incluirlo en el detalle.
         response_content = response.text
@@ -167,27 +167,27 @@ def RunTest(
         # Compara el código de estado de la respuesta con el esperado.
         if response.status_code == expected_status:
             return True, (
-                f"Prueba Exitosa: HTTP {method.name} a {endpoint} retornó "
+                f"✅ Prueba Exitosa: HTTP {method.name} a {endpoint} retornó "
                 f"el estado esperado {expected_status}. Respuesta: {response_content[:200]}..."
             )
         else:
             return False, (
-                f"Prueba Fallida: HTTP {method.name} a {endpoint}. "
+                f"❌ Prueba Fallida: HTTP {method.name} a {endpoint}. "
                 f"Se esperaba el estado {expected_status}, pero se obtuvo {response.status_code}. "
                 f"Respuesta: {response_content}"
             )
     except requests.exceptions.ConnectionError as e:
         # Maneja errores de conexión (por ejemplo, si el host no es alcanzable).
-        return False, f"Prueba Fallida: Error de conexión a {endpoint}. Detalles: {e}"
+        return False, f"❌ Prueba Fallida: Error de conexión a {endpoint}. Detalles: {e}"
     except requests.exceptions.Timeout as e:
         # Maneja errores de tiempo de espera agotado.
-        return False, f"Prueba Fallida: La solicitud excedió el tiempo de espera para {endpoint}. Detalles: {e}"
+        return False, f"❌ Prueba Fallida: La solicitud excedió el tiempo de espera para {endpoint}. Detalles: {e}"
     except requests.exceptions.RequestException as e:
         # Captura cualquier otra excepción relacionada con 'requests'.
-        return False, f"Prueba Fallida: Ocurrió un error inesperado en la solicitud para {endpoint}. Detalles: {e}"
+        return False, f"❌ Prueba Fallida: Ocurrió un error inesperado en la solicitud para {endpoint}. Detalles: {e}"
     except Exception as e:
         # Captura cualquier otra excepción general inesperada.
-        return False, f"Prueba Fallida: Ocurrió un error inesperado. Detalles: {e}"
+        return False, f"❌ Prueba Fallida: Ocurrió un error inesperado. Detalles: {e}"
     
 get_all_categorias = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias", HttpStatus.OK)
 
