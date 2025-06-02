@@ -190,5 +190,9 @@ def RunTest(
         return False, f"❌ Prueba Fallida: Ocurrió un error inesperado. Detalles: {e}"
     
 get_all_categorias = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias", HttpStatus.OK)
+get_categoria_by_nombre = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/rosas", HttpStatus.OK)
+get_categoria_by_nombre_2 = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/cosaQueNoExiste", HttpStatus.OK)
 
 print(get_all_categorias)
+print(get_categoria_by_nombre)
+print(get_categoria_by_nombre_2)
