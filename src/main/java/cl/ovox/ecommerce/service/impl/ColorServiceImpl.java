@@ -33,12 +33,12 @@ public class ColorServiceImpl implements IColorService {
         if (nombre == null || nombre.trim().isEmpty()) {
             return null;
         }
-        return colorRepository.findByNombre(nombre.toLowerCase()).orElse(null);
+        return colorRepository.findByNombre(nombre.toUpperCase()).orElse(null);
     }
 
     @Override
     public ColorDTO save(ColorDTO color) {
-        String nombreNormalizado = color.getNombre().toLowerCase();
+        String nombreNormalizado = color.getNombre().toUpperCase();
         color.setNombre(nombreNormalizado);
 
         Optional<ColorDTO> existingColor = colorRepository.findByNombre(nombreNormalizado);
@@ -63,7 +63,7 @@ public class ColorServiceImpl implements IColorService {
             return null;
         }
 
-        String nombreNormalizado = color.getNombre().trim().toLowerCase();
+        String nombreNormalizado = color.getNombre().trim().toUpperCase();
         color.setNombre(nombreNormalizado);
         color.setId(id);
 

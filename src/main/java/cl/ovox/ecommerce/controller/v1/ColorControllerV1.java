@@ -57,7 +57,7 @@ public class ColorControllerV1 {
         }
 
         if (colorService.findByNombre(color.getNombre()) != null) {
-             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + color.getNombre() + "' ya existe.", "CO-POST-02");
+             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + color.getNombre().toUpperCase() + "' ya existe.", "CO-POST-02");
         }
 
         ColorDTO savedColor = colorService.save(color);
