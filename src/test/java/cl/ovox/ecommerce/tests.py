@@ -117,82 +117,81 @@ def RunTest(
     method: HttpMethod,
     endpoint: str,
     expected_status: int,
-    content: Optional[str] = None, # Ahora es opcional y por defecto es None
-    content_type: Optional[HttpContentType] = None # Ahora es opcional y por defecto es None
-) -> Tuple[bool, str]:
-    """
-    Ejecuta una prueba HTTP contra un endpoint especificado.
+    content: Optional[str] = None,
+    content_type: Optional[HttpContentType] = None
+) -> str:
+    headers = {}
 
-    Args:
-        method: El método HTTP a utilizar (GET, POST, PUT, DELETE).
-        endpoint: La URL del endpoint a probar.
-        expected_status: El código de estado HTTP esperado para una prueba exitosa.
-        content: Opcional. El cuerpo de la solicitud (para métodos que lo requieren como POST, PUT).
-                 Por defecto es None.
-        content_type: Opcional. El tipo de contenido del cuerpo de la solicitud.
-                      Por defecto es None.
-
-    Returns:
-        Una tupla donde el primer elemento es un booleano (True para éxito, False para fallo)
-        y el segundo elemento es una cadena de texto con el detalle de la prueba.
-    """
-    headers = {} # Inicializamos las cabeceras vacías
-
-    # Si se proporciona un content_type, lo añadimos a las cabeceras.
-    # Esto es crucial para POST/PUT cuando se envía un cuerpo.
     if content_type:
         headers["Content-Type"] = content_type.value
 
-    response_content = "" # Variable para almacenar el contenido de la respuesta
-
     try:
-        # Realiza la solicitud HTTP según el método especificado.
-        # Para POST y PUT, el 'data' (cuerpo de la solicitud) se envía solo si 'content' no es None.
         if method == HttpMethod.GET:
             response = requests.get(endpoint, headers=headers)
         elif method == HttpMethod.POST:
-            # Si content no es None, lo enviamos como data
             response = requests.post(endpoint, headers=headers, data=content if content is not None else None)
         elif method == HttpMethod.PUT:
-            # Si content no es None, lo enviamos como data
             response = requests.put(endpoint, headers=headers, data=content if content is not None else None)
         elif method == HttpMethod.DELETE:
-            response = requests.delete(endpoint, headers=headers) # DELETE raramente lleva cuerpo
+            response = requests.delete(endpoint, headers=headers)
         else:
-            return False, f"❌ Error: Método HTTP '{method.name}' no soportado."
+            return f"\033[91m❌ Error: Método HTTP '{method.name}' no soportado.\033[0m \n\n"
 
-        # Captura el contenido de la respuesta para incluirlo en el detalle.
         response_content = response.text
 
-        # Compara el código de estado de la respuesta con el esperado.
         if response.status_code == expected_status:
-            return True, (
-                f"✅ Prueba Exitosa: HTTP {method.name} a {endpoint} retornó "
-                f"el estado esperado {expected_status}. Respuesta: {response_content[:200]}..."
+            # Mensaje de éxito con colores
+            return (
+                f"\033[92m✅ {method.name} {endpoint}\033[0m\n"
+                f"      URL = \033[94m'{endpoint}'\033[0m\n"
+                f"      MESSAGE = \033[93m'Se obtuvo el estado esperado {expected_status}'\033[0m\n"
+                f"      EXPECTED = \033[92m{expected_status} OK\033[0m | RECEIVED = \033[92m{response.status_code} OK\033[0m\n"
+                f"      CONTENT = \033[96m{response_content[:200]}...\033[0m \n\n"
             )
         else:
-            return False, (
-                f"❌ Prueba Fallida: HTTP {method.name} a {endpoint}. "
-                f"Se esperaba el estado {expected_status}, pero se obtuvo {response.status_code}. "
-                f"Respuesta: {response_content}"
+            # Mensaje de error con colores
+            return (
+                f"\033[91m❌ {method.name} {endpoint}\033[0m\n"
+                f"      URL = \033[94m'{endpoint}'\033[0m\n"
+                f"      MESSAGE = \033[93m'Se esperaba el estado {expected_status}, pero se obtuvo {response.status_code}'\033[0m\n"
+                f"      EXPECTED = \033[91m{expected_status}\033[0m | RECEIVED = \033[91m{response.status_code}\033[0m\n"
+                f"      CONTENT = \033[96m{response_content[:200]}...\033[0m \n\n"
             )
     except requests.exceptions.ConnectionError as e:
-        # Maneja errores de conexión (por ejemplo, si el host no es alcanzable).
-        return False, f"❌ Prueba Fallida: Error de conexión a {endpoint}. Detalles: {e}"
+        return f"\033[91m❌ Prueba Fallida: Error de conexión a {endpoint}. Detalles: {e}\033[0m \n\n"
     except requests.exceptions.Timeout as e:
-        # Maneja errores de tiempo de espera agotado.
-        return False, f"❌ Prueba Fallida: La solicitud excedió el tiempo de espera para {endpoint}. Detalles: {e}"
+        return f"\033[91m❌ Prueba Fallida: La solicitud excedió el tiempo de espera para {endpoint}. Detalles: {e}\033[0m \n\n"
     except requests.exceptions.RequestException as e:
-        # Captura cualquier otra excepción relacionada con 'requests'.
-        return False, f"❌ Prueba Fallida: Ocurrió un error inesperado en la solicitud para {endpoint}. Detalles: {e}"
+        return f"\033[91m❌ Prueba Fallida: Ocurrió un error inesperado en la solicitud para {endpoint}. Detalles: {e}\033[0m \n\n"
     except Exception as e:
-        # Captura cualquier otra excepción general inesperada.
-        return False, f"❌ Prueba Fallida: Ocurrió un error inesperado. Detalles: {e}"
-    
-get_all_categorias = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias", HttpStatus.OK)
-get_categoria_by_nombre = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/rosas", HttpStatus.OK)
-get_categoria_by_nombre_2 = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/cosaQueNoExiste", HttpStatus.OK)
+        return f"\033[91m❌ Prueba Fallida: Ocurrió un error inesperado. Detalles: {e}\033[0m \n\n"
 
-print(get_all_categorias)
-print(get_categoria_by_nombre)
-print(get_categoria_by_nombre_2)
+
+update_color_by_id = RunTest(HttpMethod.PUT,
+                          "http://localhost:5600/api/v1/crud/colores/27",
+                          HttpStatus.OK, '{"nombre" : "Blanco"}',
+                          HttpContentType.JSON)
+
+add_new_color = RunTest(HttpMethod.POST,
+                       "http://localhost:5600/api/v1/crud/colores",
+                       HttpStatus.OK,
+                       '{"nombre" : "amarillo"}',
+                       HttpContentType.JSON)
+
+delete_color_by_id = RunTest(HttpMethod.DELETE,
+                             "http://localhost:5600/api/v1/crud/colores/41",
+                             HttpStatus.OK)
+
+get_color_by_id = RunTest(HttpMethod.GET,
+                          "http://localhost:5600/api/v1/crud/colores/27",
+                          HttpStatus.OK)
+
+get_all_colores = RunTest(HttpMethod.GET,
+                          "http://localhost:5600/api/v1/crud/colores",
+                          HttpStatus.OK)
+
+
+print(update_color_by_id)
+print(add_new_color)
+print(delete_color_by_id)
+print(get_all_colores)
