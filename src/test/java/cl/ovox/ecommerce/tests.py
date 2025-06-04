@@ -114,6 +114,7 @@ class HttpStatus(int, Enum):
         raise ValueError(f"{value} no es un código de estado HTTP válido.")
 
 def RunTest(
+    name: str,
     method: HttpMethod,
     endpoint: str,
     expected_status: int,
@@ -142,7 +143,7 @@ def RunTest(
         if response.status_code == expected_status:
             # Mensaje de éxito con colores
             return (
-                f"\033[92m✅ {method.name} {endpoint}\033[0m\n"
+                f"\033[92m✅ {method.name} {name}\033[0m\n"
                 f"      URL = \033[94m'{endpoint}'\033[0m\n"
                 f"      MESSAGE = \033[93m'Se obtuvo el estado esperado {expected_status}'\033[0m\n"
                 f"      EXPECTED = \033[92m{expected_status} OK\033[0m | RECEIVED = \033[92m{response.status_code} OK\033[0m\n"
@@ -151,7 +152,7 @@ def RunTest(
         else:
             # Mensaje de error con colores
             return (
-                f"\033[91m❌ {method.name} {endpoint}\033[0m\n"
+                f"\033[91m❌ {method.name} {name}\033[0m\n"
                 f"      URL = \033[94m'{endpoint}'\033[0m\n"
                 f"      MESSAGE = \033[93m'Se esperaba el estado {expected_status}, pero se obtuvo {response.status_code}'\033[0m\n"
                 f"      EXPECTED = \033[91m{expected_status}\033[0m | RECEIVED = \033[91m{response.status_code}\033[0m\n"
@@ -166,31 +167,31 @@ def RunTest(
     except Exception as e:
         return f"\033[91m❌ Prueba Fallida: Ocurrió un error inesperado. Detalles: {e}\033[0m \n\n"
     
-get_all_categorias = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias", HttpStatus.OK)
-get_categoria_by_nombre = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/rosas", HttpStatus.OK)
-get_categoria_by_nombre_2 = RunTest(HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/cosaQueNoExiste", HttpStatus.NOT_FOUND)
+get_all_categorias = RunTest("Get All Categorias", HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias", HttpStatus.OK)
+get_categoria_by_nombre = RunTest("Get Categoria By Nombre", HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/rosas", HttpStatus.OK)
+get_categoria_by_nombre_2 = RunTest("Get Categoria By Nombre No Existente", HttpMethod.GET, "http://localhost:5600/api/v1/crud/categorias/cosaQueNoExiste", HttpStatus.NOT_FOUND)
 
 
-update_color_by_id = RunTest(HttpMethod.PUT,
+update_color_by_id = RunTest("Update Color by ID", HttpMethod.PUT,
                           "http://localhost:5600/api/v1/crud/colores/27",
                           HttpStatus.OK, '{"nombre" : "Blanco"}',
                           HttpContentType.JSON)
 
-add_new_color = RunTest(HttpMethod.POST,
+add_new_color = RunTest("Add New Color", HttpMethod.POST,
                        "http://localhost:5600/api/v1/crud/colores",
                        HttpStatus.OK,
                        '{"nombre" : "amarillo"}',
                        HttpContentType.JSON)
 
-delete_color_by_id = RunTest(HttpMethod.DELETE,
+delete_color_by_id = RunTest("Delete Color By ID", HttpMethod.DELETE,
                              "http://localhost:5600/api/v1/crud/colores/41",
                              HttpStatus.OK)
 
-get_color_by_id = RunTest(HttpMethod.GET,
+get_color_by_id = RunTest("Get Color By ID", HttpMethod.GET,
                           "http://localhost:5600/api/v1/crud/colores/27",
                           HttpStatus.OK)
 
-get_all_colores = RunTest(HttpMethod.GET,
+get_all_colores = RunTest("Get All Colors", HttpMethod.GET,
                           "http://localhost:5600/api/v1/crud/colores",
                           HttpStatus.OK)
 
