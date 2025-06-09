@@ -22,3 +22,7 @@ spring:
 
 server:
     port: 5600
+
+springdoc:
+    swagger-ui:
+        path: /swagger.html
