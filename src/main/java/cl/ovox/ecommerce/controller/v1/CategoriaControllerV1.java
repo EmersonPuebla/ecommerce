@@ -26,6 +26,26 @@ public class CategoriaControllerV1 {
     private CategoriaServiceImpl categoriaService;
 
     @GetMapping 
+    @io.swagger.v3.oas.annotations.Operation(
+    summary = "Obtener todas las categorías",
+    description = "Retorna una lista con todas las categorías disponibles",
+    responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Lista de categorías encontrada",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                // Aquí asumo que ApiResponse es tu clase personalizada que envuelve List<CategoriaDTO>
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "404",
+            description = "No existen categorías disponibles",
+            content = @io.swagger.v3.oas.annotations.media.Content
+        )
+    }
+)
     public ResponseEntity<ApiResponse<List<CategoriaDTO>>> getAll() {
         List<CategoriaDTO> categorias = categoriaService.findAll();
 
@@ -36,6 +56,24 @@ public class CategoriaControllerV1 {
     }
 
    @GetMapping("/{nombre}")
+@io.swagger.v3.oas.annotations.Operation(
+    summary = "Obtener categoría por nombre",
+    description = "Obtiene una categoria en base a su nombre",
+    responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Categoría encontrada",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "404",
+            description = "Categoría no encontrada"
+        )
+    }
+)
     public ResponseEntity<ApiResponse<CategoriaDTO>> getByNombre(@PathVariable String nombre) {
         CategoriaDTO categoria = categoriaService.findByNombre(nombre);
 
@@ -47,6 +85,36 @@ public class CategoriaControllerV1 {
     }
 
      @PostMapping
+     @io.swagger.v3.oas.annotations.Operation(
+    summary = "Insertar nueva categoría",
+    description = "Crea una nueva categoría si no existe otra con el mismo nombre",
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+        required = true,
+        description = "Datos de la categoría a crear",
+        content = @io.swagger.v3.oas.annotations.media.Content(
+            mediaType = "application/json",
+            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CategoriaDTO.class)
+        )
+    ),
+    responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "201",
+            description = "Categoría creada exitosamente",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "409",
+            description = "La categoría ya existe",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        )
+    }
+)
     public ResponseEntity<?> insertCategoria(@RequestBody CategoriaDTO categoria) {
 
         if (categoriaService.findByNombre(categoria.getNombre()) != null) {
@@ -58,6 +126,43 @@ public class CategoriaControllerV1 {
     }
 
     @PutMapping("/{nombre}")
+    @io.swagger.v3.oas.annotations.Operation(
+    summary = "Actualizar una categoría",
+    description = "Actualiza una categoría existente identificada por su nombre",
+    parameters = {
+        @io.swagger.v3.oas.annotations.Parameter(
+            name = "nombre",
+            description = "Nombre de la categoría a actualizar",
+            required = true
+        )
+    },
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+        description = "Datos nuevos de la categoría",
+        required = true,
+        content = @io.swagger.v3.oas.annotations.media.Content(
+            mediaType = "application/json",
+            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CategoriaDTO.class)
+        )
+    ),
+    responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Categoría actualizada exitosamente",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "404",
+            description = "Categoría no encontrada"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "500",
+            description = "Error interno del servidor"
+        )
+    }
+)
     public ResponseEntity<ApiResponse<CategoriaDTO>> update(@PathVariable String nombre, @RequestBody CategoriaDTO categoria) {
         if (categoriaService.findByNombre(nombre) == null) {
             return ApiResponse.notFound("No se encontro la categoria " + nombre);
@@ -73,6 +178,35 @@ public class CategoriaControllerV1 {
     }
 
     @DeleteMapping("/{nombre}")
+    @io.swagger.v3.oas.annotations.Operation(
+    summary = "Eliminar una categoría",
+    description = "Elimina una categoría por su nombre si existe",
+    parameters = {
+        @io.swagger.v3.oas.annotations.Parameter(
+            name = "nombre",
+            description = "Nombre de la categoría a eliminar",
+            required = true
+        )
+    },
+    responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "Categoría eliminada exitosamente",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "500",
+            description = "Error al intentar eliminar la categoría",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        )
+    }
+)
 public ResponseEntity<?> delete(@PathVariable String nombre) {
     try {
         categoriaService.delete(nombre);

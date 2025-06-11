@@ -1,6 +1,7 @@
 package cl.ovox.ecommerce.dto;
 
 import cl.ovox.ecommerce.model.base.UUIDBaseEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -16,6 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class CategoriaDTO extends UUIDBaseEntity {
+    
+    @Schema(description = "Nombre de la categoría", example = "comida")
     @Column(nullable = false)
     private String nombre;
 
