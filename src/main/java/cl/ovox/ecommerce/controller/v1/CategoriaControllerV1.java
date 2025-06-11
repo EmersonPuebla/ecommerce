@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ovox.ecommerce.dto.CategoriaDTO;
 import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.CategoriaServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v1/crud/categorias")
@@ -84,46 +85,37 @@ public class CategoriaControllerV1 {
         return ApiResponse.success(categoria, "Se han encontrado la categoria " + categoria.getNombre() + " exitosamente.");
     }
 
-     @PostMapping
-     @io.swagger.v3.oas.annotations.Operation(
-    summary = "Insertar nueva categoría",
-    description = "Crea una nueva categoría si no existe otra con el mismo nombre",
-    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-        required = true,
-        description = "Datos de la categoría a crear",
-        content = @io.swagger.v3.oas.annotations.media.Content(
-            mediaType = "application/json",
-            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CategoriaDTO.class)
-        )
-    ),
-    responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "201",
-            description = "Categoría creada exitosamente",
-            content = @io.swagger.v3.oas.annotations.media.Content(
-                mediaType = "application/json",
-                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
-            )
-        ),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "409",
-            description = "La categoría ya existe",
-            content = @io.swagger.v3.oas.annotations.media.Content(
-                mediaType = "application/json",
-                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
-            )
-        )
-    }
-)
-    public ResponseEntity<?> insertCategoria(@RequestBody CategoriaDTO categoria) {
+//      @PostMapping
+//      @io.swagger.v3.oas.annotations.Operation(
+//     summary = "Insertar nueva categoría",
+//     description = "Crea una nueva categoría si no existe otra con el mismo nombre",
+//         required = true,
+//         description = "Datos de la categoría a crear",
+//         content = @io.swagger.v3.oas.annotations.media.Content(
+//             mediaType = "application/json",
+//             schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CategoriaDTO.class)
+//         )
+//     ),
+//     responses = {
+//         @io.swagger.v3.oas.annotations.responses.ApiResponse(
+//             responseCode = "201",
+//             description = "Categoría creada exitosamente",
+//             content = @io.swagger.v3.oas.annotations.media.Content(
+//                 mediaType = "application/json",
+//                 schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+//             )
+//         ),
+//         @io.swagger.v3.oas.annotations.responses.ApiResponse(
+//             responseCode = "409",
+//             description = "La categoría ya existe",
+//             content = @io.swagger.v3.oas.annotations.media.Content(
+//                 mediaType = "application/json",
+//                 schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+//             )
+//         )
+//     }
+// )
 
-        if (categoriaService.findByNombre(categoria.getNombre()) != null) {
-            return ApiResponse.error(HttpStatus.CONFLICT, "La categoria " + categoria.getNombre() + " ya existe.", "C-POST-01");       
-        }
-
-        CategoriaDTO newCategoria = categoriaService.save(categoria);
-        return ApiResponse.success(newCategoria, "Se ha insertado exitosamente la categoria");
-    }
 
     @PutMapping("/{nombre}")
     @io.swagger.v3.oas.annotations.Operation(
