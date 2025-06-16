@@ -85,36 +85,53 @@ public class CategoriaControllerV1 {
         return ApiResponse.success(categoria, "Se han encontrado la categoria " + categoria.getNombre() + " exitosamente.");
     }
 
-//      @PostMapping
-//      @io.swagger.v3.oas.annotations.Operation(
-//     summary = "Insertar nueva categoría",
-//     description = "Crea una nueva categoría si no existe otra con el mismo nombre",
-//         required = true,
-//         description = "Datos de la categoría a crear",
-//         content = @io.swagger.v3.oas.annotations.media.Content(
-//             mediaType = "application/json",
-//             schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CategoriaDTO.class)
-//         )
-//     ),
-//     responses = {
-//         @io.swagger.v3.oas.annotations.responses.ApiResponse(
-//             responseCode = "201",
-//             description = "Categoría creada exitosamente",
-//             content = @io.swagger.v3.oas.annotations.media.Content(
-//                 mediaType = "application/json",
-//                 schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
-//             )
-//         ),
-//         @io.swagger.v3.oas.annotations.responses.ApiResponse(
-//             responseCode = "409",
-//             description = "La categoría ya existe",
-//             content = @io.swagger.v3.oas.annotations.media.Content(
-//                 mediaType = "application/json",
-//                 schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
-//             )
-//         )
-//     }
-// )
+@PostMapping
+@io.swagger.v3.oas.annotations.Operation(
+    summary = "Insertar nueva categoría",
+    description = "Crea una nueva categoría si no existe otra con el mismo nombre",
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+        description = "Datos de la categoría a crear",
+        required = true,
+        content = @io.swagger.v3.oas.annotations.media.Content(
+            mediaType = "application/json",
+            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = CategoriaDTO.class)
+        )
+    ),
+    responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "201",
+            description = "Categoría creada exitosamente",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "409",
+            description = "La categoría ya existe",
+            content = @io.swagger.v3.oas.annotations.media.Content(
+                mediaType = "application/json",
+                schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = ApiResponse.class)
+            )
+        )
+    }
+)
+public ResponseEntity<ApiResponse<CategoriaDTO>> insertarCategoria(@RequestBody CategoriaDTO categoriaDTO) {
+    CategoriaDTO nuevaCategoria = categoriaService.save(categoriaDTO); // Método de servicio para guardar la categoría
+
+    if (nuevaCategoria == null) {
+        return ApiResponse.error(
+            HttpStatus.CONFLICT,
+            "La categoría ya existe.",
+            "C-POST-CAT-01"
+        );
+    }
+
+    return ApiResponse.success(
+        nuevaCategoria,
+        "Categoría creada exitosamente."
+    );
+}
 
 
     @PutMapping("/{nombre}")
