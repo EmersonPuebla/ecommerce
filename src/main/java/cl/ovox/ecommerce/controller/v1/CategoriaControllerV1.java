@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ovox.ecommerce.dto.CategoriaDTO;
 import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.CategoriaServiceImpl;
-import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v1/crud/categorias")
