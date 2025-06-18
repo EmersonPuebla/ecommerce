@@ -29,8 +29,11 @@ public class CategoriaServiceImpl implements ICategoriaService {
 
     @Override
     public CategoriaDTO save(CategoriaDTO producto) {
-        return categoriaRepository.save(producto);
+    if (categoriaRepository.findByNombre(producto.getNombre()).isPresent()) {
+        return null; 
     }
+    return categoriaRepository.save(producto);
+}
 
 @Override
 public CategoriaDTO update(String nombre, CategoriaDTO categoriaActualizada) {

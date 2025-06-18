@@ -215,14 +215,17 @@ public ResponseEntity<ApiResponse<CategoriaDTO>> insertarCategoria(@RequestBody 
         )
     }
 )
-public ResponseEntity<?> delete(@PathVariable String nombre) {
-    try {
-        categoriaService.delete(nombre);
-        return ApiResponse.success("La categoría fue eliminada exitosamente.");
-    } catch (Exception e) {
+public ResponseEntity<ApiResponse<Void>> delete(@PathVariable String nombre) {
+    CategoriaDTO categoria = categoriaService.findByNombre(nombre);
+
+    if (categoria == null) {
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se logró eliminar la categoría.", "C-DELETE-01");
     }
+
+    categoriaService.delete(nombre);
+    return ApiResponse.success("La categoría fue eliminada exitosamente.");
 }
+
     
 
 }
