@@ -6,9 +6,9 @@ import cl.ovox.ecommerce.dto.UsuarioDTO;
 
 public interface IUsuarioService {
     List<UsuarioDTO> findAll();
-    UsuarioDTO findByRut(Integer rut);
+    UsuarioDTO findByRut(String rut);
     UsuarioDTO save(UsuarioDTO usuario);
-    UsuarioDTO update(Integer rut, UsuarioDTO usuario);
-    void delete(Integer rut);
+    UsuarioDTO update(String rut, UsuarioDTO usuario);
+    void delete(String rut);
 
 }

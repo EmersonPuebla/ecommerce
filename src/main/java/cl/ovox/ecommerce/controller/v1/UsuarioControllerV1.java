@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ovox.ecommerce.dto.UsuarioDTO;
 import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.UsuarioServiceImpl;
+import cl.ovox.ecommerce.util.RutUtil;
 
 @RestController
 @RequestMapping("/api/v1/crud/usuarios")
@@ -39,7 +40,7 @@ public class UsuarioControllerV1 {
         return ApiResponse.success(usuarios, mensaje);
     }
 
-    @GetMapping("/{rut}")
+   /* @GetMapping("/{rut}")
     public ResponseEntity<ApiResponse<UsuarioDTO>> getById(@PathVariable Integer rut) {
         UsuarioDTO usuario = usuarioService.findByRut(rut);
 
@@ -48,20 +49,30 @@ public class UsuarioControllerV1 {
         }
 
         return ApiResponse.success(usuario, "Se ha encontrado al usuario exitosamente");
-    }
-
+    */ 
     @PostMapping
     public ResponseEntity<ApiResponse<UsuarioDTO>> insertUsuario(@RequestBody UsuarioDTO usuario) {
-        if (usuarioService.findByRut(usuario.getRut()) != null) {
-            return ApiResponse.error(HttpStatus.CONFLICT, "No se ha podido agregar al usuario", "U-POST-01");
+        Integer run = RutUtil.extraerRun(usuario.getRut());
+        String dv = RutUtil.extraerDv(usuario.getRut());
+        String rut = RutUtil.rutNormalizado(run, dv);
+
+        usuario.setRut(rut);
+
+        if (RutUtil.esRutValido(run, dv)){
+            if (usuarioService.findByRut(rut) != null) {
+            return ApiResponse.error(HttpStatus.CONFLICT, "El usuario ya existe", "U-POST-01");
+            }
+            else{
+                UsuarioDTO newUsuario = usuarioService.save(usuario);
+                return ApiResponse.success(newUsuario, "Se ha creado exitosamente el usuario");
+                }
         }
-        
-        UsuarioDTO newUsuario = usuarioService.save(usuario);
-        return ApiResponse.success(newUsuario, "Se ha creado exitosamente el usuario");
+
+        return ApiResponse.error(HttpStatus.BAD_REQUEST,"El RUT ingresado no es valido", "U-POST-02");
     }
 
 
-    @PutMapping("/{rut}")
+    /*@PutMapping("/{rut}")
     public ResponseEntity<ApiResponse<UsuarioDTO>> updateUsuario(@PathVariable Integer rut, @RequestBody UsuarioDTO usuario) {
         if (usuarioService.findByRut(rut) == null) {
             return ApiResponse.notFound("No se ha encontrado a un usuario con el rut " + rut);
@@ -72,9 +83,10 @@ public class UsuarioControllerV1 {
         }
         
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Algo a salido mal", "U-PUT-01");
-    }
+    */
+    
 
-    @DeleteMapping("/{rut}")
+    /*@DeleteMapping("/{rut}")
     public ResponseEntity<?> deleteUsuario(@PathVariable Integer rut) {
         UsuarioDTO usuario = usuarioService.findByRut(rut);
         
@@ -84,6 +96,7 @@ public class UsuarioControllerV1 {
         }
         
         return ApiResponse.notFound("No se ha encontrado a ningún usuario con el rut " + rut);
-    }
+    
+    return null;}*/
 
 }

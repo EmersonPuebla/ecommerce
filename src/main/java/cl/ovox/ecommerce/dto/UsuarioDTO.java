@@ -28,11 +28,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class UsuarioDTO extends UUIDBaseEntity {
 
-    @Column(nullable = false)
-    private Integer rut;
-
-    @Column(nullable = false, unique = true, columnDefinition = "NUMBER(3)")
-    private Integer dv;
+    @Column(nullable = false, unique = true, length = 12)
+    private String rut;
 
     @Column(nullable=false) 
     private String pnombre;
@@ -61,7 +58,7 @@ public class UsuarioDTO extends UUIDBaseEntity {
 
     @Column(nullable = false)
     private String telefono;
-
+/* 
     @JsonIgnore
     @Column(nullable=false)
     @NotBlank
@@ -71,4 +68,5 @@ public class UsuarioDTO extends UUIDBaseEntity {
     @Column(nullable=false)
     @NotBlank
     private String salt;
+    */
 }
