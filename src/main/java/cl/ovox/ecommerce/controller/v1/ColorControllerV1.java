@@ -52,12 +52,15 @@ public class ColorControllerV1 {
     @PostMapping
     public ResponseEntity<ApiResponse<ColorDTO>> insertColor(@RequestBody ColorDTO color) {
 
-         if (color.getId() != null && colorService.findById(color.getId()) != null) {
+        String nombre = color.getNombre().trim().toUpperCase();
+        color.setNombre(nombre);
+
+        if (color.getId() != null && colorService.findById(color.getId()) != null) {
             return ApiResponse.error(HttpStatus.CONFLICT, "El color con ID '" + color.getId() + "' ya existe. Por favor, no proporcione un ID para la creación, o use PUT para actualizar.", "PE-POST-01");
         }
 
-        if (colorService.findByNombre(color.getNombre()) != null) {
-             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + color.getNombre().toUpperCase() + "' ya existe.", "CO-POST-02");
+        if (colorService.findByNombre(nombre) != null) {
+             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + nombre + "' ya existe.", "CO-POST-02");
         }
 
         ColorDTO savedColor = colorService.save(color);
@@ -67,15 +70,24 @@ public class ColorControllerV1 {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ColorDTO>> updateColor(@Valid @PathVariable Integer id, @RequestBody ColorDTO color) {
+        
+        String nombre = color.getNombre().trim().toUpperCase();
+        color.setNombre(nombre);
+        color.setId(id);
+        
         if (colorService.findById(id) == null) {
             return ApiResponse.notFound("No se ha encontrado el color con el ID " + id);
         }
-    
+
+        if (colorService.findByNombre(nombre) != null) {
+             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + nombre + "' ya existe.", "CO-PUT-01");
+        }
+
         if (colorService.update(id, color) != null){
             return ApiResponse.success(color, "El color ID " + id + " se ha actualizado exitosamente");
         }
     
-        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se ha podido actualizar el color por un error interno.", "CO-PUT-01");
+        return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "No se ha podido actualizar el color por un error interno.", "CO-PUT-02");
 
     }
 

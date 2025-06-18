@@ -33,20 +33,22 @@ public class ColorServiceImpl implements IColorService {
         if (nombre == null || nombre.trim().isEmpty()) {
             return null;
         }
-        return colorRepository.findByNombre(nombre.toUpperCase()).orElse(null);
+        return colorRepository.findByNombre(nombre).orElse(null);
     }
 
     @Override
     public ColorDTO save(ColorDTO color) {
-        String nombreNormalizado = color.getNombre().toUpperCase();
-        color.setNombre(nombreNormalizado);
 
-        Optional<ColorDTO> existingColor = colorRepository.findByNombre(nombreNormalizado);
+        Optional<ColorDTO> existingColor = colorRepository.findByNombre(color.getNombre());
 
         if (existingColor.isPresent()) {
             if (color.getId() == null || !color.getId().equals(existingColor.get().getId())) {
                 throw new IllegalArgumentException("El color '" + color.getNombre() + "' ya existe.");
             }
+        }
+
+        if (color.getNombre() == null || color.getNombre() .trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del color no puede ser nulo o vacío.");
         }
 
         return colorRepository.save(color);
@@ -55,27 +57,18 @@ public class ColorServiceImpl implements IColorService {
     @Override
     public ColorDTO update(Integer id, ColorDTO color) {
         if (color == null || color.getNombre() == null || color.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El color y su nombre no pueden ser nulos o vacíos para la actualización.");
+            throw new IllegalArgumentException("El nombre del color no puede ser nulo o vacío para la actualización.");
         }
 
         ColorDTO existingColor = colorRepository.findById(id).orElse(null);
         if (existingColor == null) {
             return null;
         }
-
-        String nombreNormalizado = color.getNombre().trim().toUpperCase();
-        color.setNombre(nombreNormalizado);
-        color.setId(id);
-
-        Optional<ColorDTO> existingColorWithSameName = colorRepository.findByNombre(nombreNormalizado);
-        if (existingColorWithSameName.isPresent() && !existingColorWithSameName.get().getId().equals(id)) {
-            throw new IllegalArgumentException("El nombre '" + color.getNombre() + "' ya está en uso por otro estado.");
-        }
-
+        
         try {
             return colorRepository.save(color);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Error al actualizar el estado: el nombre '" + color.getNombre() + "' ya está en uso.", e);
+            throw new IllegalArgumentException("Error al actualizar el color: el nombre '" + color.getNombre() + "' ya está en uso.", e);
         }
     }
 
