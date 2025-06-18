@@ -7,7 +7,7 @@ import cl.ovox.ecommerce.dto.CategoriaDTO;
 public interface ICategoriaService {
     List<CategoriaDTO> findAll();
     CategoriaDTO findByNombre(String nombre);
-    CategoriaDTO save(CategoriaDTO producto);
+    CategoriaDTO save(CategoriaDTO nombre);
     CategoriaDTO update(String nombre, CategoriaDTO categoria);
     void delete(String nombre);
 }
