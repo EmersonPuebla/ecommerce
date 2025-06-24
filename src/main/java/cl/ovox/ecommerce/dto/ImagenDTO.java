@@ -21,24 +21,24 @@ public class ImagenDTO extends UUIDBaseEntity{
     @Column(nullable = false)
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name = "producto_id", nullable = true)
-    private ProductoDTO producto;
+    //@ManyToOne
+    //@JoinColumn(name = "producto_id", nullable = true)
+    //private ProductoDTO producto;
 
     @ManyToOne
     @JoinColumn(name = "opinion_id", nullable = true)
     private OpinionDTO opinion;
 
     
-    public ImagenDTO(String url, ProductoDTO producto) {
-        this.url = url;
-        this.producto = producto;
-        this.opinion = null;
-    }
+    //public ImagenDTO(String url, ProductoDTO producto) {
+        //this.url = url;
+        //this.producto = producto;
+        //this.opinion = null;
+    //}
 
-    public ImagenDTO(String url, OpinionDTO opinion) {
-         this.url = url;
-         this.producto = null;
-         this.opinion = opinion;
-    }
+    //public ImagenDTO(String url, OpinionDTO opinion) {
+         //this.url = url;
+         //this.producto = null;
+         //this.opinion = opinion;
+    //}
 }

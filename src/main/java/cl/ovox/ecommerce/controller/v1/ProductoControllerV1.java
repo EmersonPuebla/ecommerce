@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.ovox.ecommerce.dto.ProductoDTO;
+import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.ProductoServiceImpl;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,14 +51,9 @@ public class ProductoControllerV1 {
     }
 
     @PostMapping
-    public ResponseEntity<?> insertProducto(@RequestBody ProductoDTO producto) {
-
-        if (productoService.findById(producto.getId()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);         
-        }
-
-        ProductoDTO newProducto = productoService.save(producto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newProducto);
+    public ResponseEntity<ApiResponse<ProductoDTO>> insertProducto(@RequestBody ProductoDTO producto) {
+        ProductoDTO savedProducto = productoService.save(producto);
+        return ApiResponse.success(savedProducto, "yei");
     }
 
     @PutMapping("/{id}")

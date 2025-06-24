@@ -43,7 +43,7 @@ public class ImagenControllerV1 {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         };
 
-        return ResponseEntity.ok(producto.getImagenes());
+        return null; //ResponseEntity.ok(producto.getImagenes());
          
 
     }

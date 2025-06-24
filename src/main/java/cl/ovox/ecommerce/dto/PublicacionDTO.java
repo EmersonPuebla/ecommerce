@@ -42,9 +42,9 @@ public class PublicacionDTO extends UUIDBaseEntity {
     @JoinColumn(nullable = false)
     private PublicacionEstadoDTO estado;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private ProductoDTO producto;
+    //@ManyToOne
+    //@JoinColumn(nullable = false)
+    //private ProductoDTO producto;
 
     @OneToMany
     @JoinColumn(nullable = true)

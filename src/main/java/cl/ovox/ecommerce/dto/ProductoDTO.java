@@ -41,9 +41,9 @@ public class ProductoDTO extends UUIDBaseEntity {
     @Size(min = 0, max = 4000)
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "producto_estado_id", nullable = false)
-    private ProductoEstadoDTO productoEstado;
+    //@ManyToOne
+    //@JoinColumn(name = "producto_estado_id", nullable = false)
+    //private ProductoEstadoDTO productoEstado;
 
     @ManyToMany
     @JoinTable(
@@ -53,17 +53,17 @@ public class ProductoDTO extends UUIDBaseEntity {
     )
     private List<ColorDTO> colores = new ArrayList<>(); // ¡Inicializado!
     
-    @OneToMany(mappedBy = "producto")
-    private List<ImagenDTO> imagenes = new ArrayList<>(); // ¡Inicializado!
+    //@OneToMany(mappedBy = "producto")
+    //private List<ImagenDTO> imagenes = new ArrayList<>(); // ¡Inicializado!
 
-   @ManyToMany
-    @JoinTable(
-        name = "PRODUCTO_CATEGORIA", // Tabla de unión
-        joinColumns = @JoinColumn(name = "producto_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id")
-    )
-    private List<CategoriaDTO> categorias = new ArrayList<>(); // ¡Inicializado!
-
+    //@ManyToMany
+    //@JoinTable(
+        //name = "PRODUCTO_CATEGORIA", // Tabla de unión
+        //joinColumns = @JoinColumn(name = "producto_id", referencedColumnName = "id"),
+        //inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    //)
+    //private List<CategoriaDTO> categorias = new ArrayList<>(); // ¡Inicializado!
+    
     @Column(nullable = false)
     @Min(value = 0)
     private Integer precio;
