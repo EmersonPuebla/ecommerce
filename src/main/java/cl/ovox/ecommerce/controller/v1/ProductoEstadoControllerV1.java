@@ -63,7 +63,7 @@ public class ProductoEstadoControllerV1 {
 
         ProductoEstadoDTO savedEstado = productoEstadoService.save(productoEstado);
         // Usar 201 Created para una inserción exitosa
-        return ApiResponse.success(savedEstado, "Se ha insertado exitosamente el estado de producto.");
+        return ApiResponse.success(savedEstado, "Se ha insertado exitosamente el estado de producto.", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

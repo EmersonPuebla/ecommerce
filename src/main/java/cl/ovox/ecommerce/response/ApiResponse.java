@@ -33,6 +33,12 @@ public class ApiResponse<T> {
         this.message = message;
         this.code = code;
     }
+    public static <T> ResponseEntity<ApiResponse<T>> success(T data, String message, HttpStatus httpStatus) {
+        // Crea una instancia de ApiResponse y la envuelve en ResponseEntity
+        ApiResponse<T> apiResponse = new ApiResponse<>(httpStatus, message, data);
+        return new ResponseEntity<>(apiResponse, httpStatus);
+    }
+
     public static <T> ResponseEntity<ApiResponse<T>> success(T data, String message) {
         // Crea una instancia de ApiResponse y la envuelve en ResponseEntity
         ApiResponse<T> apiResponse = new ApiResponse<>(HttpStatus.OK, message, data);

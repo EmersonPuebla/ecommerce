@@ -65,7 +65,7 @@ public class UnidadMedidaControllerV1 {
 
         UnidadMedidaDTO savedUnidadMedida = unidadMedidaService.save(unidadMedida);
   
-        return ApiResponse.success(savedUnidadMedida, "Se ha insertado exitosamente la unidad de medida.");
+        return ApiResponse.success(savedUnidadMedida, "Se ha insertado exitosamente la unidad de medida.", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

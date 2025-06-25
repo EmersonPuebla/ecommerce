@@ -65,7 +65,7 @@ public class ColorControllerV1 {
 
         ColorDTO savedColor = colorService.save(color);
   
-        return ApiResponse.success(savedColor, "Se ha insertado exitosamente el color.");
+        return ApiResponse.success(savedColor, "Se ha insertado exitosamente el color.", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
