@@ -3,8 +3,6 @@ package cl.ovox.ecommerce.dto;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -51,18 +49,18 @@ public class ProductoDTO extends UUIDBaseEntity {
         joinColumns = @JoinColumn(name = "producto_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "color_id", referencedColumnName = "id")
     )
-    private List<ColorDTO> colores = new ArrayList<>(); // ¡Inicializado!
+    private List<ColorDTO> colores = new ArrayList<>(); 
     
     //@OneToMany(mappedBy = "producto")
-    //private List<ImagenDTO> imagenes = new ArrayList<>(); // ¡Inicializado!
+    //private List<ImagenDTO> imagenes = new ArrayList<>(); 
 
-    //@ManyToMany
-    //@JoinTable(
-        //name = "PRODUCTO_CATEGORIA", // Tabla de unión
-        //joinColumns = @JoinColumn(name = "producto_id", referencedColumnName = "id"),
-        //inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id")
-    //)
-    //private List<CategoriaDTO> categorias = new ArrayList<>(); // ¡Inicializado!
+    @ManyToMany
+    @JoinTable(
+        name = "PRODUCTO_CATEGORIA",
+        joinColumns = @JoinColumn(name = "producto_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    )
+    private List<CategoriaDTO> categorias = new ArrayList<>(); 
     
     @Column(nullable = false)
     @Min(value = 0)

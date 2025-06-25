@@ -19,7 +19,11 @@ import lombok.NoArgsConstructor;
 public class CategoriaDTO extends UUIDBaseEntity {
     
     @Schema(description = "Nombre de la categoría", example = "comida")
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre != null ? nombre.toUpperCase() : null;
+    }
 
 }
