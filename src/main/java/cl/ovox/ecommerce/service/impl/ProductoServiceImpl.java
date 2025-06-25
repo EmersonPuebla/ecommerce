@@ -22,6 +22,10 @@ public class ProductoServiceImpl implements IProductoService {
     @Autowired
     private ColorRepository colorRepository;
 
+    public ProductoDTO findBySku(String sku) {
+        return productoRepository.findBySku(sku).orElse(null);
+    }
+
     public List<ProductoDTO> findAll() {
         return productoRepository.findAll();
     }

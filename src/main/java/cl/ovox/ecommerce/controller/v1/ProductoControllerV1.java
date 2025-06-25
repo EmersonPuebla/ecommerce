@@ -30,30 +30,32 @@ public class ProductoControllerV1 {
 
 
     @GetMapping 
-    public ResponseEntity<List<ProductoDTO>> getAll() {
+    public ResponseEntity<ApiResponse<List<ProductoDTO>>> getAll() {
         List<ProductoDTO> productos = productoService.findAll();
 
         if (productos.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.notFound("No se han encontrado productos.");
         }
-        return ResponseEntity.ok(productos);
+
+        String mensaje = "Se han encontrado " + productos.size() + " productos.";
+        return ApiResponse.success(productos, mensaje);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoDTO> getById(@PathVariable UUID id) {
-        ProductoDTO producto = productoService.findById(id);
+    public ResponseEntity<ApiResponse<ProductoDTO>> getById(@PathVariable String sku) {
+        ProductoDTO producto = productoService.findBySku(sku);
 
         if (producto == null) {
-            return ResponseEntity.noContent().build();
+            return ApiResponse.notFound("No se encontró ningún producto con el SKU " + sku);
         }
 
-        return ResponseEntity.ok(producto);
+        return ApiResponse.success(producto, "Se ha encontrado el producto exitosamente");
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<ProductoDTO>> insertProducto(@RequestBody ProductoDTO producto) {
         ProductoDTO savedProducto = productoService.save(producto);
-        return ApiResponse.success(savedProducto, "yei");
+        return ApiResponse.success(savedProducto, "El producto a sido ingresado exitosamente");
     }
 
     @PutMapping("/{id}")
