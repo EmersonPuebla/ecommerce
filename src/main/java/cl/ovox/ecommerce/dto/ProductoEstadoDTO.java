@@ -24,4 +24,8 @@ public class ProductoEstadoDTO {
     @Column(nullable = false, unique = true)
     @NotBlank(message = "El nombre del estado no puede estar vacío")
     private String nombre;
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre != null ? nombre.toUpperCase() : null;
+    }
 }

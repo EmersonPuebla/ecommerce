@@ -3,6 +3,7 @@ package cl.ovox.ecommerce.dto;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -39,9 +40,12 @@ public class ProductoDTO extends UUIDBaseEntity {
     @Size(min = 0, max = 4000)
     private String descripcion;
 
-    //@ManyToOne
-    //@JoinColumn(name = "producto_estado_id", nullable = false)
-    //private ProductoEstadoDTO productoEstado;
+    @ManyToOne()
+    @JoinColumn(
+        name = "producto_estado_id",
+        nullable = false
+    )
+    private ProductoEstadoDTO estado; 
 
     @ManyToMany
     @JoinTable(
@@ -51,8 +55,8 @@ public class ProductoDTO extends UUIDBaseEntity {
     )
     private List<ColorDTO> colores = new ArrayList<>(); 
     
-    //@OneToMany(mappedBy = "producto")
-    //private List<ImagenDTO> imagenes = new ArrayList<>(); 
+    // @OneToMany(mappedBy = "producto")
+    // private List<ImagenDTO> imagenes = new ArrayList<>(); 
 
     @ManyToMany
     @JoinTable(
