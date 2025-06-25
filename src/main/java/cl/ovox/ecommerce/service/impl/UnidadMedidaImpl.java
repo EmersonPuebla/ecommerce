@@ -44,8 +44,9 @@ public class UnidadMedidaImpl implements IUnidadMedidaService{
     @Override
     public UnidadMedidaDTO save(UnidadMedidaDTO unidadMedida) {
 
-        String nombreNormalizado = unidadMedida.getNombre().toLowerCase();
+        String nombreNormalizado = unidadMedida.getNombre().toUpperCase();
         unidadMedida.setNombre(nombreNormalizado);
+        unidadMedida.setSimbolo(unidadMedida.getSimbolo().toUpperCase());
 
         Optional<UnidadMedidaDTO> existingUnidadMedida = unidadMedidaRepository.findByNombre(nombreNormalizado);
 
@@ -73,7 +74,8 @@ public class UnidadMedidaImpl implements IUnidadMedidaService{
             return null;
         }
 
-        String nombreNormalizado = unidadMedida.getNombre().trim().toLowerCase();
+        String nombreNormalizado = unidadMedida.getNombre().trim().toUpperCase();
+        unidadMedida.setSimbolo(unidadMedida.getSimbolo().toUpperCase());
         unidadMedida.setNombre(nombreNormalizado);
         unidadMedida.setId(id);
 

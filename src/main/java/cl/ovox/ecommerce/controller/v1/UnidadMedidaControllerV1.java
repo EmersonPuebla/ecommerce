@@ -20,7 +20,7 @@ import cl.ovox.ecommerce.service.impl.UnidadMedidaImpl;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/crud/unidadmedida")
+@RequestMapping("/api/v1/crud/unidad_medida")
 
 public class UnidadMedidaControllerV1 {
 

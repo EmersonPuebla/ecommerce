@@ -10,10 +10,12 @@ import cl.ovox.ecommerce.dto.CategoriaDTO;
 import cl.ovox.ecommerce.dto.ColorDTO;
 import cl.ovox.ecommerce.dto.ProductoDTO;
 import cl.ovox.ecommerce.dto.ProductoEstadoDTO;
+import cl.ovox.ecommerce.dto.UnidadMedidaDTO;
 import cl.ovox.ecommerce.repository.CategoriaRepository;
 import cl.ovox.ecommerce.repository.ColorRepository;
 import cl.ovox.ecommerce.repository.ProductoEstadoRepository;
 import cl.ovox.ecommerce.repository.ProductoRepository;
+import cl.ovox.ecommerce.repository.UnidadMedidaRepository;
 import cl.ovox.ecommerce.service.IProductoService;
 import jakarta.transaction.Transactional;
 
@@ -32,6 +34,8 @@ public class ProductoServiceImpl implements IProductoService {
     @Autowired
     private ProductoEstadoRepository estadoRepository;
 
+    @Autowired
+    private UnidadMedidaRepository unidadMedidaRepository;
 
     public ProductoDTO findBySku(String sku) {
         return productoRepository.findBySku(sku).orElse(null);
@@ -46,7 +50,8 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     public ProductoDTO save(ProductoDTO producto) {
-
+        
+        
         /* === ESTADO =========================================================== */
         String nombreEstado = producto.getEstado()              
                                     .getNombre()
@@ -55,10 +60,19 @@ public class ProductoServiceImpl implements IProductoService {
         ProductoEstadoDTO estado = estadoRepository
                 .findByNombre(nombreEstado)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "El estado '" + nombreEstado + "' no existe"));
+                    "El estado '" + nombreEstado + "' no existe"));
+                    
+                    producto.setEstado(estado);              
+                    
+        /* === UNIDAD MEDIDA =========================================================== */
+        String simbolo = producto.getMedida().getNombre().toUpperCase();
 
-        producto.setEstado(estado);              
-
+        UnidadMedidaDTO medida = unidadMedidaRepository.findBySimbolo(simbolo)
+                .orElseThrow(() -> new IllegalArgumentException(
+                    "La unidad de medida '" + simbolo + "' no existe"));
+                    
+                    producto.setMedida(medida);              
+                        
         /* === COLORES ========================================================== */
         List<String> nombresColores = producto.getColores().stream()
                 .map(c -> c.getNombre().toUpperCase())

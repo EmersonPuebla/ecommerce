@@ -47,6 +47,13 @@ public class ProductoDTO extends UUIDBaseEntity {
     )
     private ProductoEstadoDTO estado; 
 
+    @ManyToOne()
+    @JoinColumn(
+        name = "unidad_medida_id",
+        nullable = false
+    )
+    private UnidadMedidaDTO medida;
+
     @ManyToMany
     @JoinTable(
         name = "PRODUCTO_COLOR",
