@@ -41,9 +41,9 @@ public class ProductoControllerV1 {
         return ApiResponse.success(productos, mensaje);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{sku}")
     public ResponseEntity<ApiResponse<ProductoDTO>> getById(@PathVariable String sku) {
-        ProductoDTO producto = productoService.findBySku(sku);
+        ProductoDTO producto = productoService.findBySku((sku.toUpperCase()));
 
         if (producto == null) {
             return ApiResponse.notFound("No se encontró ningún producto con el SKU " + sku);
