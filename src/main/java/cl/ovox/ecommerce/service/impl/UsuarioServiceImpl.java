@@ -43,17 +43,37 @@ public class UsuarioServiceImpl implements IUsuarioService{
         return usuarioRepository.save(usuario);
     }
 
-    public UsuarioDTO update(String rut, UsuarioDTO usuario){
-        /*if (usuarioRepository.findByRut(rut) != null){
-            return usuarioRepository.save(usuario);
-        }*/
-        return null;
+@Override
+@Transactional
+public UsuarioDTO update(String rut, UsuarioDTO usuario) {
+    // Normalizar el RUT
+    String rutFormateado = RutUtil.rutNormalizado(RutUtil.extraerRun(rut), RutUtil.extraerDv(rut));
+
+    // Buscar usuario existente
+    Optional<UsuarioDTO> existingUsuario = usuarioRepository.findByRut(rutFormateado);
+    if (existingUsuario.isEmpty()) {
+        throw new IllegalArgumentException("No se encontró ningún usuario con el RUT: " + rutFormateado);
     }
+
+    // Actualizar los campos del usuario existente
+    UsuarioDTO usuarioExistente = existingUsuario.get();
+    usuarioExistente.setPnombre(usuario.getPnombre());
+    usuarioExistente.setSnombre(usuario.getSnombre());
+    usuarioExistente.setAppaterno(usuario.getAppaterno());
+    usuarioExistente.setApmaterno(usuario.getApmaterno());
+    usuarioExistente.setFechaNacimiento(usuario.getFechaNacimiento());
+    usuarioExistente.setCorreo(usuario.getCorreo());
+    usuarioExistente.setTelefono(usuario.getTelefono());
+
+    // Guardar cambios
+    return usuarioRepository.save(usuarioExistente);
+}
+
 
     public UsuarioDTO findByRut(String rut) {        
 
         String rutFormateado = 
-        RutUtil.rutNormalizado(RutUtil.extraerRun(rut), RutUtil.extraerDv(rut)).toUpperCase();
+        RutUtil.rutNormalizado(RutUtil.extraerRun(rut), RutUtil.extraerDv(rut));
 
         return usuarioRepository.findByRut(rutFormateado).orElse(null);
     }
@@ -65,8 +85,19 @@ public class UsuarioServiceImpl implements IUsuarioService{
     }
 */
     //deleteOrDeactivateByRun
+    @Override
     public void delete(String rut) {
-       
+        String rutFormateado = 
+            RutUtil.rutNormalizado(RutUtil.extraerRun(rut), RutUtil.extraerDv(rut));
+
+        Optional<UsuarioDTO> usuario = usuarioRepository.findByRut(rutFormateado);
+
+        if (usuario.isPresent()) {
+            usuarioRepository.delete(usuario.get());
+        } else {
+            throw new IllegalArgumentException("No se encontró ningún usuario con el RUT: " + rutFormateado);
+        }
     }
+
 
 }
