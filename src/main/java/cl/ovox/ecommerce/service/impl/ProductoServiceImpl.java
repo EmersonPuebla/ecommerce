@@ -30,21 +30,23 @@ public class ProductoServiceImpl implements IProductoService {
         return productoRepository.findById(id).orElse(null);
     }
 
-    public ProductoDTO save(ProductoDTO producto) {
-        List<Integer> colorIds = producto.getColores().stream()
-            .map(ColorDTO::getId)
-            .toList();
+public ProductoDTO save(ProductoDTO producto) {
 
-        System.out.println("IDs de color recibidos: " + colorIds);
+    // 1. Extraer los nombres que llegaron en el JSON en mayúscula
+    List<String> nombres = producto.getColores().stream()
+                                   .map(ColorDTO::getNombre)
+                                   .map(String::toUpperCase)
+                                   .toList();
 
-        List<ColorDTO> coloresCompletos = colorRepository.findAllById(colorIds);
+    // 2. Obtener los colores completos desde la BD usando sus nombres
+    List<ColorDTO> coloresCompletos = colorRepository.findByNombreIn(nombres);
 
-        System.out.println("Colores encontrados en BD: " + coloresCompletos);
+    // 3. Asignar la lista completa al producto
+    producto.setColores(coloresCompletos);
 
-        producto.setColores(coloresCompletos);
-
-        return productoRepository.save(producto);
-    }
+    // 4. Guardar y devolver
+    return productoRepository.save(producto);
+}
 
     public ProductoDTO update(UUID id, ProductoDTO producto) {
         if (productoRepository.findById(id) != null) {
