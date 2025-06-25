@@ -1,5 +1,7 @@
 package cl.ovox.ecommerce.dto;
 
+import cl.ovox.ecommerce.common.Nombreable;
+
 //import java.util.List;
 
 import jakarta.persistence.Column;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ColorDTO {
+public class ColorDTO implements Nombreable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

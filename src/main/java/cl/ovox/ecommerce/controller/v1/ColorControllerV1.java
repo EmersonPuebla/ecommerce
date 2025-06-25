@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.ovox.ecommerce.dto.ColorDTO;
 import cl.ovox.ecommerce.response.ApiResponse;
 import cl.ovox.ecommerce.service.impl.ColorServiceImpl;
+import cl.ovox.ecommerce.util.NormalizerUtil;
+import cl.ovox.ecommerce.util.TextUtil;
 import jakarta.validation.Valid;
 
 @RestController
@@ -52,35 +54,33 @@ public class ColorControllerV1 {
     @PostMapping
     public ResponseEntity<ApiResponse<ColorDTO>> insertColor(@RequestBody ColorDTO color) {
 
-        String nombre = color.getNombre().trim().toUpperCase();
-        color.setNombre(nombre);
+        NormalizerUtil.normalizeNombre(color, TextUtil::AllUpperCase);
 
         if (color.getId() != null && colorService.findById(color.getId()) != null) {
             return ApiResponse.error(HttpStatus.CONFLICT, "El color con ID '" + color.getId() + "' ya existe. Por favor, no proporcione un ID para la creación, o use PUT para actualizar.", "PE-POST-01");
         }
 
-        if (colorService.findByNombre(nombre) != null) {
-             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + nombre + "' ya existe.", "CO-POST-02");
+        if (colorService.findByNombre(color.getNombre()) != null) {
+             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + color.getNombre() + "' ya existe.", "CO-POST-02");
         }
 
         ColorDTO savedColor = colorService.save(color);
   
-        return ApiResponse.success(savedColor, "Se ha insertado exitosamente el color.", HttpStatus.CREATED);
+        return ApiResponse.success(savedColor, "Se ha insertado exitosamente el color.");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ColorDTO>> updateColor(@Valid @PathVariable Integer id, @RequestBody ColorDTO color) {
         
-        String nombre = color.getNombre().trim().toUpperCase();
-        color.setNombre(nombre);
+        NormalizerUtil.normalizeNombre(color, TextUtil::AllUpperCase);
         color.setId(id);
         
         if (colorService.findById(id) == null) {
             return ApiResponse.notFound("No se ha encontrado el color con el ID " + id);
         }
 
-        if (colorService.findByNombre(nombre) != null) {
-             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + nombre + "' ya existe.", "CO-PUT-01");
+        if (colorService.findByNombre(color.getNombre()) != null) {
+             return ApiResponse.error(HttpStatus.CONFLICT, "El color con nombre '" + color.getNombre() + "' ya existe.", "CO-PUT-01");
         }
 
         if (colorService.update(id, color) != null){
