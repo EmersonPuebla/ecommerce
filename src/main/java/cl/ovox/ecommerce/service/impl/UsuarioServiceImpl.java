@@ -73,7 +73,7 @@ public UsuarioDTO update(String rut, UsuarioDTO usuario) {
     public UsuarioDTO findByRut(String rut) {        
 
         String rutFormateado = 
-        RutUtil.rutNormalizado(RutUtil.extraerRun(rut), RutUtil.extraerDv(rut));
+        RutUtil.rutNormalizado(RutUtil.extraerRun(rut), RutUtil.extraerDv(rut)).toUpperCase();
 
         return usuarioRepository.findByRut(rutFormateado).orElse(null);
     }
